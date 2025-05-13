@@ -19,6 +19,8 @@
         <rewrite.testing.version>3.8.0</rewrite.testing.version>
         <rewrite.java.version>3.9.0</rewrite.java.version>
         <spotless.version>2.44.4</spotless.version>
+        <jacoco.version>0.8.12</jacoco.version>
+        <allure.version>2.15.2</allure.version>
         <maven.compiler.version>3.14.0</maven.compiler.version>
         <maven.surefire.version>3.5.3</maven.surefire.version>
         <maven.failsafe.version>3.5.3</maven.failsafe.version>
@@ -178,6 +180,34 @@
                         </includes>
                     </configuration>
                 </plugin>
+
+                <!-- JaCoCo Coverage -->
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${jacoco.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>report</id>
+                            <goals>
+                                <goal>report</goal>
+                            </goals>
+                            <phase>verify</phase>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- Allure Reports -->
+                <plugin>
+                    <groupId>io.qameta.allure</groupId>
+                    <artifactId>allure-maven</artifactId>
+                    <version>${allure.version}</version>
+                </plugin>
             </plugins>
         </pluginManagement>
 
@@ -205,6 +235,16 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
             </plugin>
         </plugins>
     </build>
