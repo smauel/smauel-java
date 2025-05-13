@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.smauel</groupId>
+    <artifactId>parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>boms</module>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <lombok.version>1.18.38</lombok.version>
+        <rewrite.version>6.8.1</rewrite.version>
+        <rewrite.logging.version>3.8.0</rewrite.logging.version>
+        <rewrite.testing.version>3.8.0</rewrite.testing.version>
+        <rewrite.java.version>3.9.0</rewrite.java.version>
+        <spotless.version>2.44.4</spotless.version>
+        <maven.compiler.version>3.14.0</maven.compiler.version>
+        <maven.surefire.version>3.5.3</maven.surefire.version>
+        <maven.failsafe.version>3.5.3</maven.failsafe.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+
+                <!-- OpenRewrite plugin -->
+                <plugin>
+                    <groupId>org.openrewrite.maven</groupId>
+                    <artifactId>rewrite-maven-plugin</artifactId>
+                    <version>${rewrite.version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.openrewrite.recipe</groupId>
+                            <artifactId>rewrite-logging-frameworks</artifactId>
+                            <version>${rewrite.logging.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.openrewrite.recipe</groupId>
+                            <artifactId>rewrite-testing-frameworks</artifactId>
+                            <version>${rewrite.testing.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.openrewrite.recipe</groupId>
+                            <artifactId>rewrite-migrate-java</artifactId>
+                            <version>${rewrite.java.version}</version>
+                        </dependency>
+                    </dependencies>
+                    <executions>
+                        <execution>
+                            <id>run-rewrite</id>
+                            <goals>
+                                <goal>run</goal>
+                            </goals>
+                            <phase>verify</phase>
+                            <configuration>
+                                <activeRecipes>
+                                    <recipie>org.openrewrite.java.logging.SystemPrintToLogging</recipie>
+                                    <recipie>org.openrewrite.java.logging.slf4j.Slf4jBestPractices</recipie>
+                                    <recipie>org.openrewrite.java.migrate.lombok.LombokBestPractices</recipie>
+                                    <recipie>org.openrewrite.java.testing.assertj.Assertj</recipie>
+                                    <recipie>org.openrewrite.java.testing.mockito.MockitoBestPractices</recipie>
+                                    <recipie>org.openrewrite.java.testing.junit5.JUnit5BestPractices</recipie>
+                                    <recipie>org.openrewrite.java.testing.testcontainers.TestContainersBestPractices</recipie>
+                                </activeRecipes>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- Spotless plugin -->
+                <plugin>
+                    <groupId>com.diffplug.spotless</groupId>
+                    <artifactId>spotless-maven-plugin</artifactId>
+                    <version>${spotless.version}</version>
+                    <executions>
+                        <execution>
+                            <id>spotless-apply</id>
+                            <goals>
+                                <goal>apply</goal>
+                            </goals>
+                            <phase>verify</phase>
+                            <configuration>
+                                <java>
+                                    <cleanthat/>
+                                    <palantirJavaFormat/>
+                                    <importOrder/>
+                                    <removeUnusedImports/>
+                                    <formatAnnotations/>
+                                </java>
+                                <pom>
+                                    <sortPom>
+                                        <nrOfIndentSpace>4</nrOfIndentSpace>
+                                        <expandEmptyElements>false</expandEmptyElements>
+                                    </sortPom>
+                                </pom>
+                                <markdown>
+                                    <includes>
+                                        <include>**/*.md</include>
+                                    </includes>
+                                    <flexmark/>
+                                </markdown>
+                                <json>
+                                    <includes>
+                                        <include>**/*.json</include>
+                                    </includes>
+                                    <jackson/>
+                                </json>
+                                <yaml>
+                                    <includes>
+                                        <include>**/*.yaml</include>
+                                        <include>**/*.yml</include>
+                                    </includes>
+                                    <jackson/>
+                                </yaml>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven.compiler.version}</version>
+                    <configuration>
+                        <source>21</source>
+                        <target>21</target>
+                        <release>17</release>
+                        <compilerArgs>
+                            <arg>-Xlint:all,-serial,-processing</arg>
+                            <arg>-Werror</arg>
+                        </compilerArgs>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>1.18.38</version>
+                            </path>
+                        </annotationProcessorPaths>
+                    </configuration>
+                </plugin>
+
+                <!-- Surefire Unit Test Runner -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven.surefire.version}</version>
+                    <configuration>
+                        <includes>
+                            <include>**/*Test.java</include>
+                        </includes>
+                        <useModulePath>false</useModulePath>
+                    </configuration>
+                </plugin>
+
+                <!-- Failsafe Integration Test Runner -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>${maven.failsafe.version}</version>
+                    <configuration>
+                        <includes>
+                            <include>**/*IT.java</include>
+                        </includes>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.openrewrite.maven</groupId>
+                <artifactId>rewrite-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
