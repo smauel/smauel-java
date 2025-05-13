@@ -13,6 +13,7 @@
 
     <modules>
         <module>testing-bom</module>
+        <module>logging-bom</module>
     </modules>
 
 </project>
