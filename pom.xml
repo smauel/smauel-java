@@ -24,6 +24,7 @@
         <maven.compiler.version>3.14.0</maven.compiler.version>
         <maven.surefire.version>3.5.3</maven.surefire.version>
         <maven.failsafe.version>3.5.3</maven.failsafe.version>
+        <maven.enforcer.version>3.5.0</maven.enforcer.version>
     </properties>
 
     <dependencyManagement>
@@ -134,6 +135,7 @@
                     </executions>
                 </plugin>
 
+                <!-- Compiler Plugin -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
@@ -150,7 +152,7 @@
                             <path>
                                 <groupId>org.projectlombok</groupId>
                                 <artifactId>lombok</artifactId>
-                                <version>1.18.38</version>
+                                <version>${lombok.version}</version>
                             </path>
                         </annotationProcessorPaths>
                     </configuration>
@@ -208,6 +210,32 @@
                     <artifactId>allure-maven</artifactId>
                     <version>${allure.version}</version>
                 </plugin>
+
+                <!-- Enforcer Plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>${maven.enforcer.version}</version>
+                    <configuration>
+                        <rules>
+                            <banDuplicatePomDependencyVersions/>
+                            <dependencyConvergence/>
+                            <requireNoRepositories/>
+                            <requireReleaseDeps>
+                                <failWhenParentIsSnapshot>false</failWhenParentIsSnapshot>
+                            </requireReleaseDeps>
+                            <requireUpperBoundDeps/>
+                        </rules>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>enforce-rules</id>
+                            <goals>
+                                <goal>enforce</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
             </plugins>
         </pluginManagement>
 
@@ -245,6 +273,11 @@
             <plugin>
                 <groupId>io.qameta.allure</groupId>
                 <artifactId>allure-maven</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
