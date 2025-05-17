@@ -25,6 +25,8 @@
         <maven.surefire.version>3.5.3</maven.surefire.version>
         <maven.failsafe.version>3.5.3</maven.failsafe.version>
         <maven.enforcer.version>3.5.0</maven.enforcer.version>
+        <maven.javadoc.version>3.6.3</maven.javadoc.version>
+        <maven.source.version>3.3.0</maven.source.version>
     </properties>
 
     <dependencyManagement>
@@ -69,7 +71,7 @@
                             <goals>
                                 <goal>run</goal>
                             </goals>
-                            <phase>verify</phase>
+                            <phase>compile</phase>
                             <configuration>
                                 <activeRecipes>
                                     <recipie>org.openrewrite.java.logging.SystemPrintToLogging</recipie>
@@ -96,7 +98,7 @@
                             <goals>
                                 <goal>apply</goal>
                             </goals>
-                            <phase>verify</phase>
+                            <phase>compile</phase>
                             <configuration>
                                 <java>
                                     <cleanthat/>
@@ -119,14 +121,14 @@
                                 </markdown>
                                 <json>
                                     <includes>
-                                        <include>**/*.json</include>
+                                        <include>src/**/*.json</include>
                                     </includes>
                                     <jackson/>
                                 </json>
                                 <yaml>
                                     <includes>
-                                        <include>**/*.yaml</include>
-                                        <include>**/*.yml</include>
+                                        <include>src/**/*.yaml</include>
+                                        <include>src/**/*.yml</include>
                                     </includes>
                                     <jackson/>
                                 </yaml>
@@ -209,6 +211,15 @@
                     <groupId>io.qameta.allure</groupId>
                     <artifactId>allure-maven</artifactId>
                     <version>${allure.version}</version>
+                    <executions>
+                        <execution>
+                            <id>report</id>
+                            <goals>
+                                <goal>report</goal>
+                            </goals>
+                            <phase>verify</phase>
+                        </execution>
+                    </executions>
                 </plugin>
 
                 <!-- Enforcer Plugin -->
@@ -232,6 +243,37 @@
                             <id>enforce-rules</id>
                             <goals>
                                 <goal>enforce</goal>
+                            </goals>
+                            <phase>validate</phase>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- Javadoc plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${maven.javadoc.version}</version>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- Source plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${maven.source.version}</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar</goal>
                             </goals>
                         </execution>
                     </executions>
@@ -271,13 +313,18 @@
             </plugin>
 
             <plugin>
-                <groupId>io.qameta.allure</groupId>
-                <artifactId>allure-maven</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
