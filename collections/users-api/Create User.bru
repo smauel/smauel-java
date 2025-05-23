@@ -1,0 +1,19 @@
+meta {
+  name: Create User
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{scheme}}://{{host}}:{{port}}/api/users
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "username": "my_user",
+    "fullname": "My User",
+    "email": "user@my.com"
+  }
+}
