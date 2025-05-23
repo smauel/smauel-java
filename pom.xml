@@ -150,6 +150,7 @@
                         <compilerArgs>
                             <arg>-Xlint:all,-serial,-processing</arg>
                             <arg>-Werror</arg>
+                            <arg>-parameters</arg>
                         </compilerArgs>
                         <annotationProcessorPaths>
                             <path>
@@ -166,12 +167,19 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${maven.surefire.version}</version>
-                    <configuration>
-                        <includes>
-                            <include>**/*Test.java</include>
-                        </includes>
-                        <useModulePath>false</useModulePath>
-                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>test</goal>
+                            </goals>
+                            <phase>test</phase>
+                            <configuration>
+                                <includes>
+                                    <include>**/*Test.java</include>
+                                </includes>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
 
                 <!-- Failsafe Integration Test Runner -->
@@ -179,11 +187,20 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>${maven.failsafe.version}</version>
-                    <configuration>
-                        <includes>
-                            <include>**/*IT.java</include>
-                        </includes>
-                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>integration-test</goal>
+                                <goal>verify</goal>
+                            </goals>
+                            <phase>integration-test</phase>
+                            <configuration>
+                                <includes>
+                                    <include>**/*IT.java</include>
+                                </includes>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
 
                 <!-- JaCoCo Coverage -->
@@ -255,6 +272,10 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>${maven.javadoc.version}</version>
+                    <configuration>
+                        <additionalJOption>-Xdoclint:-missing</additionalJOption>
+                        <failOnWarnings>true</failOnWarnings>
+                    </configuration>
                     <executions>
                         <execution>
                             <id>attach-javadocs</id>
