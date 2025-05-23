@@ -28,6 +28,10 @@
         <maven.enforcer.version>3.5.0</maven.enforcer.version>
         <maven.javadoc.version>3.6.3</maven.javadoc.version>
         <maven.source.version>3.3.0</maven.source.version>
+        <maven.dockerfile.version>1.4.13</maven.dockerfile.version>
+        <docker.build.jarFile>${project.artifactId}.jar</docker.build.jarFile>
+        <docker.image.name>${project.artifactId}</docker.image.name>
+        <docker.image.tag>${project.version}</docker.image.tag>
     </properties>
 
     <dependencyManagement>
@@ -347,6 +351,30 @@
                         </execution>
                     </executions>
                 </plugin>
+
+                <!-- Docker Plugin -->
+                <plugin>
+                    <groupId>com.spotify</groupId>
+                    <artifactId>dockerfile-maven-plugin</artifactId>
+                    <version>${maven.dockerfile.version}</version>
+                    <configuration>
+                        <repository>${docker.image.name}</repository>
+                        <tag>${docker.image.tag}</tag>
+                        <buildArgs>
+                            <JAR_FILE>${docker.build.jarFile}</JAR_FILE>
+                        </buildArgs>
+                        <dockerfile>src/main/docker/Dockerfile</dockerfile>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>build-docker-image</id>
+                            <goals>
+                                <goal>build</goal>
+                            </goals>
+                            <phase>package</phase>
+                        </execution>
+                    </executions>
+                </plugin>
             </plugins>
         </pluginManagement>
 
@@ -355,37 +383,30 @@
                 <groupId>com.diffplug.spotless</groupId>
                 <artifactId>spotless-maven-plugin</artifactId>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
             </plugin>
-
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -398,6 +419,10 @@
             <id>rewrite</id>
             <build>
                 <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                    </plugin>
                     <plugin>
                         <groupId>org.openrewrite.maven</groupId>
                         <artifactId>rewrite-maven-plugin</artifactId>
