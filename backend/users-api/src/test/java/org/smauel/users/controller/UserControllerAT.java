@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class UserControllerIT {
+class UserControllerAT {
 
     @Autowired
     private MockMvc mockMvc;
