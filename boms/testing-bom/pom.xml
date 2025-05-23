@@ -14,7 +14,7 @@
     <properties>
         <junit.version>5.12.2</junit.version>
         <assertj.version>3.27.3</assertj.version>
-        <mockito.version>5.17.0</mockito.version>
+        <mockito.version>5.18.0</mockito.version>
         <testcontainers.version>1.21.0</testcontainers.version>
         <allure.junit.version>2.29.1</allure.junit.version>
     </properties>
