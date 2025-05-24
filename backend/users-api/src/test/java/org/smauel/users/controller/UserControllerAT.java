@@ -6,8 +6,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.qameta.allure.Description;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.smauel.users.model.User;
@@ -21,6 +23,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@DisplayName("User Controller")
 class UserControllerAT {
 
     @Autowired
@@ -38,6 +41,8 @@ class UserControllerAT {
     }
 
     @Test
+    @DisplayName("Should be able to create a user when valid params")
+    @Description("POST /api/users")
     void shouldCreateUserSuccessfully() throws Exception {
         User user = new User();
         user.setUsername("johndoe");
@@ -53,6 +58,8 @@ class UserControllerAT {
     }
 
     @Test
+    @DisplayName("Should return user by id when found")
+    @Description("GET /api/users/{id}")
     void shouldReturnUserById() throws Exception {
         User user = new User();
         user.setUsername("janedoe");
@@ -66,6 +73,8 @@ class UserControllerAT {
     }
 
     @Test
+    @DisplayName("Should return all users")
+    @Description("GET /api/users")
     void shouldReturnAllUsers() throws Exception {
         User user1 = User.builder()
                 .username("user1")

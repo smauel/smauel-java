@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.smauel</groupId>
@@ -22,6 +23,7 @@
         <spotless.version>2.44.4</spotless.version>
         <jacoco.version>0.8.12</jacoco.version>
         <allure.version>2.15.2</allure.version>
+        <aspectj.version>1.9.21</aspectj.version>
         <maven.compiler.version>3.14.0</maven.compiler.version>
         <maven.surefire.version>3.5.3</maven.surefire.version>
         <maven.failsafe.version>3.5.3</maven.failsafe.version>
@@ -85,7 +87,8 @@
                                     <recipie>org.openrewrite.java.testing.assertj.Assertj</recipie>
                                     <recipie>org.openrewrite.java.testing.mockito.MockitoBestPractices</recipie>
                                     <recipie>org.openrewrite.java.testing.junit5.JUnit5BestPractices</recipie>
-                                    <recipie>org.openrewrite.java.testing.testcontainers.TestContainersBestPractices</recipie>
+                                    <recipie>org.openrewrite.java.testing.testcontainers.TestContainersBestPractices
+                                    </recipie>
                                 </activeRecipes>
                             </configuration>
                         </execution>
@@ -171,6 +174,13 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${maven.surefire.version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.aspectj</groupId>
+                            <artifactId>aspectjweaver</artifactId>
+                            <version>${aspectj.version}</version>
+                        </dependency>
+                    </dependencies>
                     <executions>
                         <execution>
                             <goals>
@@ -181,6 +191,9 @@
                                 <includes>
                                     <include>**/*Test.java</include>
                                 </includes>
+                                <argLine>
+                                    -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                                </argLine>
                             </configuration>
                         </execution>
                     </executions>
@@ -191,6 +204,13 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>${maven.failsafe.version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.aspectj</groupId>
+                            <artifactId>aspectjweaver</artifactId>
+                            <version>${aspectj.version}</version>
+                        </dependency>
+                    </dependencies>
                     <executions>
                         <execution>
                             <goals>

@@ -16,7 +16,8 @@
         <assertj.version>3.27.3</assertj.version>
         <mockito.version>5.18.0</mockito.version>
         <testcontainers.version>1.21.0</testcontainers.version>
-        <allure.junit.version>2.29.1</allure.junit.version>
+        <allure.version>2.29.1</allure.version>
+        <spring.boot.version>3.5.0</spring.boot.version>
     </properties>
 
     <dependencyManagement>
@@ -64,8 +65,25 @@
             <!-- Allure JUnit 5 adapter -->
             <dependency>
                 <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-bom</artifactId>
+                <version>${allure.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>io.qameta.allure</groupId>
                 <artifactId>allure-junit5</artifactId>
-                <version>${allure.junit.version}</version>
+                <version>${allure.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- Spring Boot Test -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <version>${spring.boot.version}</version>
+                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
