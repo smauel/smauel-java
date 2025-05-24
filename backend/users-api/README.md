@@ -75,7 +75,7 @@ mvn verify
 
 This project uses Maven profiles for optional tasks:
 
-| Profile   | Description           |
+|  Profile  |      Description      |
 |-----------|-----------------------|
 | `docker`  | Builds a Docker image |
 | `rewrite` | Trigger OpenRewrite   |

@@ -66,7 +66,7 @@ TODO: bruno
 
 This project uses Maven profiles for optional tasks:
 
-| Profile   | Description           |
+|  Profile  |      Description      |
 |-----------|-----------------------|
 | `docker`  | Builds a Docker image |
 | `rewrite` | Trigger OpenRewrite   |
@@ -142,3 +142,4 @@ Your GitHub token needs to have the `write:packages` scope to deploy packages.
 ```bash
 mvn deploy
 ```
+
