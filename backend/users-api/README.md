@@ -44,6 +44,10 @@ mvn clean package -Pdocker
 docker run -p 8080:8080 users-api:latest
 ```
 
+### 📄 API docs
+
+[OpenAPI docs](http://localhost:8080/swagger-ui/index.html)
+
 ---
 
 ## 🧪 Running Tests
@@ -60,13 +64,18 @@ mvn test
 mvn verify
 ```
 
+## 🔬 Reports
+
+- [Jacoco Coverage](./target/site/jacoco/index.html)
+- [Allure Report](./target/site/allure-maven-plugin/index.html)
+
 ---
 
 ## 🧰 Profiles
 
 This project uses Maven profiles for optional tasks:
 
-|  Profile  |      Description      |
+| Profile   | Description           |
 |-----------|-----------------------|
 | `docker`  | Builds a Docker image |
 | `rewrite` | Trigger OpenRewrite   |
