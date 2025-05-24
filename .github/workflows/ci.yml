@@ -5,6 +5,9 @@ name: ci.yml
 
 on: push
 
+permissions:
+  contents: write
+
 jobs:
 
   build:
