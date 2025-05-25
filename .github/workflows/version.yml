@@ -9,6 +9,7 @@ on:
 
 permissions:
   contents: write
+  packages: write
 
 jobs:
 
@@ -48,7 +49,7 @@ jobs:
           ./scripts/update-versions.sh "release" "$CHANGED_MODULES"
 
       - name: Build and Test
-        run: mvn clean verify -PversionRelease
+        run: mvn -B clean verify -PversionRelease
 
       - name: Commit and push release versions
         if: env.CHANGED_MODULES != ''
@@ -58,6 +59,9 @@ jobs:
           git add .
           git commit -m "ci: Version modules [$CHANGED_MODULES]"
           git push
+
+      - name: Deploy Packages
+        run: mvn -B clean deploy
 
       - name: Tag affected modules
         if: env.CHANGED_MODULES != ''
