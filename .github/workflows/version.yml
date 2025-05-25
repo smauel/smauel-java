@@ -34,7 +34,9 @@ jobs:
         run: |
           chmod +x ./scripts/detect-changes.sh
           CHANGED_MODULES=$(./scripts/detect-changes.sh)
-          echo "CHANGED_MODULES=$CHANGED_MODULES" >> $GITHUB_ENV
+          echo "CHANGED_MODULES<<EOF" >> $GITHUB_ENV
+          echo "$CHANGED_MODULES" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
 
       - name: Set module versions (release)
         if: env.CHANGED_MODULES != ''

@@ -6,7 +6,7 @@ LAST_RELEASE_TAG=$(git describe --tags --abbrev=0 --match="*v[0-9]*.[0-9]*.[0-9]
 
 # Default to the first commit if no previous version tag exists
 if [[ -z "$LAST_RELEASE_TAG" ]]; then
-  echo "No last-release tag found. Defaulting to first commit." >&2
+  echo "No previous version tag found. Defaulting to first commit." >&2
   LAST_RELEASE_TAG=$(git rev-list --max-parents=0 HEAD)
 fi
 
