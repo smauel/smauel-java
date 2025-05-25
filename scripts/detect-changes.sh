@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+# Exclude commits from the change detection made by the versioning tool
+# Only "true" commits will be checked
+EXCLUDED_AUTHOR="autoversion@smauel.com"
+
 # Find the most recent "last-release" tag
 LAST_RELEASE_TAG=$(git describe --tags --abbrev=0 --match="*v[0-9]*.[0-9]*.[0-9]*" 2>/dev/null || echo "")
 
@@ -13,7 +17,12 @@ fi
 echo "Comparing HEAD to $LAST_RELEASE_TAG" >&2
 
 # Get a list of all changed files since the last release
-CHANGED_FILES=$(git diff --name-only "$LAST_RELEASE_TAG"..HEAD)
+# NOTE: This gives a list of changed files excluding those that were changed by the versioning tool itself.
+#       If a file was changed by both the versioning tool and someone else, it will still appear in the final
+#       output.
+ALL_CHANGED_FILES=$(git diff --name-only "$LAST_RELEASE_TAG"..HEAD)
+EXCLUDED_CHANGED_FILES=$(git log --author="$EXCLUDED_AUTHOR" --pretty=format: --name-only "$LAST_RELEASE_TAG"..HEAD | sort -u)
+CHANGED_FILES=$(comm -23 <(echo "$ALL_CHANGED_FILES" | sort -u) <(echo "$EXCLUDED_CHANGED_FILES"))
 
 # Prepare a list of affected modules
 AFFECTED_MODULES=()
