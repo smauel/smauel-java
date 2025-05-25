@@ -45,7 +45,7 @@ jobs:
           ./scripts/update-versions.sh "release" "$CHANGED_MODULES"
 
       - name: Build and Test
-        run: mvn -PversionRelease
+        run: mvn clean verify -PversionRelease
 
       - name: Commit and push release versions
         if: env.CHANGED_MODULES != ''
@@ -77,7 +77,7 @@ jobs:
           ./scripts/update-versions.sh "snapshot" "$CHANGED_MODULES"
 
       - name: Update module versions
-        run: mvn -PversionNext
+        run: mvn clean verify -PversionNext
 
       - name: Commit and push snapshot versions
         if: env.CHANGED_MODULES != ''
