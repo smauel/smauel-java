@@ -5,7 +5,7 @@
 
     <groupId>org.smauel</groupId>
     <artifactId>parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -39,9 +39,20 @@
         <maven.javadoc.version>3.6.3</maven.javadoc.version>
         <maven.source.version>3.3.0</maven.source.version>
         <maven.dockerfile.version>1.4.13</maven.dockerfile.version>
+        <maven.versions.version>2.18.0</maven.versions.version>
+        <!-- Docker Builds -->
         <docker.build.jarFile>${project.artifactId}-boot.jar</docker.build.jarFile>
         <docker.image.name>${project.artifactId}</docker.image.name>
         <docker.image.tag>${project.version}</docker.image.tag>
+        <!-- Monorepo Versions (see: VERSIONING.md) -->
+        <parent.auto.version>1.0.0-SNAPSHOT</parent.auto.version>
+        <boms.auto.version>1.0.0-SNAPSHOT</boms.auto.version>
+        <logging-bom.auto.version>1.0.0-SNAPSHOT</logging-bom.auto.version>
+        <testing-bom.auto.version>1.0.0-SNAPSHOT</testing-bom.auto.version>
+        <backend.auto.version>1.0.0-SNAPSHOT</backend.auto.version>
+        <users-api.auto.version>1.0.0-SNAPSHOT</users-api.auto.version>
+        <!-- Auto-Versioning Related -->
+        <module.auto.version>${parent.auto.version}</module.auto.version>
     </properties>
 
     <dependencyManagement>
@@ -94,7 +105,7 @@
                             <goals>
                                 <goal>run</goal>
                             </goals>
-                            <phase>compile</phase>
+                            <phase>generate-sources</phase>
                             <configuration>
                                 <activeRecipes>
                                     <recipie>org.openrewrite.java.logging.SystemPrintToLogging</recipie>
@@ -122,7 +133,7 @@
                             <goals>
                                 <goal>apply</goal>
                             </goals>
-                            <phase>compile</phase>
+                            <phase>generate-sources</phase>
                             <configuration>
                                 <java>
                                     <cleanthat/>
@@ -461,6 +472,59 @@
                     <plugin>
                         <groupId>org.openrewrite.maven</groupId>
                         <artifactId>rewrite-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>versionRelease</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>versions-maven-plugin</artifactId>
+                        <version>${maven.versions.version}</version>
+                        <executions>
+                            <execution>
+                                <id>update-version</id>
+                                <goals>
+                                    <goal>set</goal>
+                                </goals>
+                                <phase>generate-sources</phase>
+                                <configuration>
+                                    <generateBackupPoms>false</generateBackupPoms>
+                                    <artifactId>${project.artifactId}</artifactId>
+                                    <newVersion>${module.auto.version}</newVersion>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>versionNext</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>versions-maven-plugin</artifactId>
+                        <version>${maven.versions.version}</version>
+                        <executions>
+                            <execution>
+                                <id>update-version</id>
+                                <goals>
+                                    <goal>set</goal>
+                                </goals>
+                                <phase>generate-sources</phase>
+                                <configuration>
+                                    <generateBackupPoms>false</generateBackupPoms>
+                                    <artifactId>${project.artifactId}</artifactId>
+                                    <newVersion>${module.auto.version}</newVersion>
+                                    <processDependencies>false</processDependencies>
+                                </configuration>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>

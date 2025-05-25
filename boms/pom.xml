@@ -5,15 +5,21 @@
     <parent>
         <groupId>org.smauel</groupId>
         <artifactId>parent</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>boms</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
         <module>testing-bom</module>
         <module>logging-bom</module>
     </modules>
+
+    <properties>
+        <!-- Auto-Versioning Related -->
+        <module.auto.version>${boms.auto.version}</module.auto.version>
+    </properties>
 
 </project>
