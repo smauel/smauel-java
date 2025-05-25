@@ -39,3 +39,6 @@ build/
 
 ### Allure ###
 .allure
+
+### Auto Versionsing  ###
+changed-modules.txt
