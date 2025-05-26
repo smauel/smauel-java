@@ -4,17 +4,14 @@ description: Checkout, setup JDK and Maven settings
 runs:
   using: "composite"
   steps:
+    - uses: actions/cache/restore@v4
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
     - uses: actions/setup-java@v4
       with:
         java-version: 21
         distribution: temurin
-
-    - name: Cache local Maven repository
-      uses: actions/cache@v4
-      with:
-        path: ~/.m2/repository
-        key: maven-deps-${{ hashFiles('**/pom.xml') }}
-        restore-keys: |
-          maven-deps-
-
     - uses: s4u/maven-settings-action@v3.1.0
