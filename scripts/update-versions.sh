@@ -34,7 +34,7 @@ update_version() {
 
   # Replace in the main pom.xml
   sed -i "s|<$VERSION_PROPERTY>$CURRENT_VERSION</$VERSION_PROPERTY>|<$VERSION_PROPERTY>$NEW_VERSION</$VERSION_PROPERTY>|" pom.xml
-  echo "Updated $module: $CURRENT_VERSION -> $NEW_VERSION"
+  echo "Updated $module: $CURRENT_VERSION -> $NEW_VERSION" >&2
 }
 
 # Process all affected modules

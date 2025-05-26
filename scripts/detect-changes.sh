@@ -62,4 +62,13 @@ if [[ "$ROOT_POM_CHANGED" == "true" ]]; then
 fi
 
 # Remove duplicates and print to stdout
-printf "%s\n" "${AFFECTED_MODULES[@]}" | sort -u
+CHANGED_MODULES=$(printf "%s\n" "${AFFECTED_MODULES[@]}" | sort -u)
+
+echo
+echo "======================" >&2
+echo "Changed Modules:" >&2
+echo "${CHANGED_MODULES}" >&2
+echo "======================" >&2
+echo
+
+echo "${CHANGED_MODULES}"
