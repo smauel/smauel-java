@@ -28,7 +28,9 @@ jobs:
         run: |
           chmod +x ./scripts/detect-changes.sh
           CHANGED_MODULES=$(./scripts/detect-changes.sh)
-          echo "changed_modules=$CHANGED_MODULES" >> $GITHUB_OUTPUT
+          echo "changed_modules<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGED_MODULES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
   lint:
     needs: checkout-and-detect
