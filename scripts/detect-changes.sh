@@ -1,10 +1,6 @@
 #!/bin/bash
 set -e
 
-# Exclude commits from the change detection made by the versioning tool
-# Only "true" commits will be checked
-EXCLUDED_AUTHOR="autoversion@smauel.com"
-
 # Find the most recent "last-release" tag
 LAST_RELEASE_TAG=$(git describe --tags --abbrev=0 --match="*v[0-9]*.[0-9]*.[0-9]*" 2>/dev/null || echo "")
 
@@ -16,13 +12,17 @@ fi
 
 echo "Comparing HEAD to $LAST_RELEASE_TAG" >&2
 
-# Get a list of all changed files since the last release
-# NOTE: This gives a list of changed files excluding those that were changed by the versioning tool itself.
-#       If a file was changed by both the versioning tool and someone else, it will still appear in the final
-#       output.
-ALL_CHANGED_FILES=$(git diff --name-only "$LAST_RELEASE_TAG"..HEAD)
-EXCLUDED_CHANGED_FILES=$(git log --author="$EXCLUDED_AUTHOR" --pretty=format: --name-only "$LAST_RELEASE_TAG"..HEAD | sort -u)
-CHANGED_FILES=$(comm -23 <(echo "$ALL_CHANGED_FILES" | sort -u) <(echo "$EXCLUDED_CHANGED_FILES"))
+# Get a list of all changed files since the last release (except those changed by the auto-versioning tool).
+#   - git log --pretty=format:'%H %ae': Outputs each commit hash and its author email.
+#   - grep -v ' autoversion@smauel.com$': Excludes lines with that author.
+#   - cut -d' ' -f1: Extracts just the commit hashes.
+#   - xargs -n1 git show --pretty=format: --name-only: Gets the list of files changed in each commit.
+#   - sort -u: Deduplicates the file list.
+CHANGED_FILES=$(git log --pretty=format:'%H %ae' "$LAST_RELEASE_TAG"..HEAD \
+  | grep -v ' autoversion@smauel.com$' \
+  | cut -d' ' -f1 \
+  | xargs -n1 git show --pretty=format: --name-only \
+  | sort -u)
 
 # Prepare a list of affected modules
 AFFECTED_MODULES=()
