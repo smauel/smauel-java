@@ -1,0 +1,117 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  checkout-and-detect:
+    runs-on: ubuntu-latest
+    outputs:
+      changed_modules: ${{ steps.changes.outputs.changed_modules }}
+    steps:
+      - uses: ./.github/actions/setup-java-maven
+
+      - name: Detect changed modules
+        id: changes
+        run: |
+          chmod +x ./scripts/detect-changes.sh
+          CHANGED_MODULES=$(./scripts/detect-changes.sh)
+          echo "changed_modules=$CHANGED_MODULES" >> $GITHUB_OUTPUT
+
+  build-and-test:
+    needs: checkout-and-detect
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/actions/setup-java-maven
+
+      - name: Build and Test
+        run: mvn -B verify
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  release-versioning:
+    needs:
+      - checkout-and-detect
+      - build-and-test
+    if: needs.checkout-and-detect.outputs.changed_modules != ''
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/actions/setup-java-maven
+
+      - name: Set module versions (release)
+        run: |
+          chmod +x ./scripts/update-versions.sh
+          ./scripts/update-versions.sh "release" "${{ needs.checkout-and-detect.outputs.changed_modules }}"
+
+      - name: Build with versionRelease
+        run: mvn -B clean verify -PversionRelease
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit and push release versions
+        run: |
+          git config user.name "Auto Version"
+          git config user.email "autoversion@smauel.com"
+          git add .
+          git commit -m "ci: Version modules [${{ needs.checkout-and-detect.outputs.changed_modules }}]"
+          git push
+
+  publish:
+    needs: release-versioning
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/actions/setup-java-maven
+
+      - name: Deploy artifacts
+        run: mvn -B clean deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  tag-modules:
+    needs: release-versioning
+    if: needs.checkout-and-detect.outputs.changed_modules != ''
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/actions/setup-java-maven
+
+      - name: Tag affected modules
+        run: |
+          for module in ${{ needs.checkout-and-detect.outputs.changed_modules }}; do
+            VERSION_PROPERTY="${module}.auto.version"
+            NEW_VERSION=$(grep "<$VERSION_PROPERTY>" pom.xml | sed -E "s/^.*<$VERSION_PROPERTY>(.*)<\/$VERSION_PROPERTY>.*$/\1/")
+            TAG_NAME="${module}v${NEW_VERSION}"
+            echo "Creating tag $TAG_NAME"
+            git tag -f "$TAG_NAME"
+          done
+          git push --tags
+
+  prepare-next-version:
+    needs: tag-modules
+    if: needs.checkout-and-detect.outputs.changed_modules != ''
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/actions/setup-java-maven
+
+      - name: Set module versions (snapshot)
+        run: |
+          chmod +x ./scripts/update-versions.sh
+          ./scripts/update-versions.sh "snapshot" "${{ needs.checkout-and-detect.outputs.changed_modules }}"
+
+      - name: Build and Test snapshot
+        run: mvn clean verify -PversionNext
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit and push snapshot versions
+        run: |
+          git config user.name "Auto Version"
+          git config user.email "autoversion@smauel.com"
+          git add .
+          git commit -m "ci: Prepare next development cycle for ${{ needs.checkout-and-detect.outputs.changed_modules }}"
+          git push
