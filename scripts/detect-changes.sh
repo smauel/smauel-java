@@ -71,4 +71,4 @@ echo "${CHANGED_MODULES}" >&2
 echo "======================" >&2
 echo
 
-echo "${CHANGED_MODULES}"
+printf "%s\n" "${AFFECTED_MODULES[@]}" | sort -u
