@@ -83,7 +83,7 @@ jobs:
           git config user.name "Auto Version"
           git config user.email "autoversion@smauel.com"
           git add .
-          git commit -m "ci: Version modules [${{ needs.checkout-and-detect.outputs.changed_modules }}]"
+          git commit -m "ci: Version modules [${{ needs.checkout-and-detect.outputs.changed_modules }}]" -m "[no ci]"
           git push
 
   publish:
@@ -161,5 +161,5 @@ jobs:
           git config user.name "Auto Version"
           git config user.email "autoversion@smauel.com"
           git add .
-          git commit -m "ci: Prepare next development cycle for ${{ needs.checkout-and-detect.outputs.changed_modules }}"
+          git commit -m "ci: Prepare next development cycle for ${{ needs.checkout-and-detect.outputs.changed_modules }}" -m "[no ci]"
           git push
