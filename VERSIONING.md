@@ -93,14 +93,21 @@ Ideally, we want to configure our CI/CD pipelines such that a manual version upd
 following
 section describes how the above versioning scheme works within our pipelines.
 
-On any merge to the `main` branch, the `Version` GitHub action will trigger which performs a diff of the patchset to
+On any merge to the `main` branch, the `Release` GitHub action will trigger which performs a diff of the patchset to
 determine which modules have been updated. Once the modules have been identified, the affected module versions are
 updated to drop the `-SNAPSHOT` in the main pom.xml. A new build is triggered, and if the build passes, the updates are
 committed.
 
-A second update to the module versions is made to increment the version and re-append the `-SNAPSHOT`, ready for the
-next round of development. This time, only the module version itself is updated, leaving any dependent modules on the
-newly created release version.
+After the release versions have been committed a git tag is produced for each changed module. Each module is tagged
+independently (e.g. `users-apiv1.2.0`). In parallel, the newly created release versions are published to the maven
+registry
+
+Once the release versions have been updated, committed, tagged, and published, a second update to the module versions is
+made to increment the version and re-append the `-SNAPSHOT`, ready for the next round of development. This time, only
+the module version itself is updated, leaving any dependent modules on the newly created release version.
+
+> **TODO**: Currently only minor version bumps are catered for. Breaking change major bumps and hotfix bumps still need
+> to be worked on
 
 ### Example
 
