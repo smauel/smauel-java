@@ -102,7 +102,9 @@ jobs:
         run: mvn -B clean deploy
 
   tag-modules:
-    needs: release-versioning
+    needs:
+      - checkout-and-detect
+      - release-versioning
     if: needs.checkout-and-detect.outputs.changed_modules != ''
     runs-on: ubuntu-latest
     steps:
@@ -132,7 +134,9 @@ jobs:
           git push --tags
 
   prepare-next-version:
-    needs: tag-modules
+    needs:
+      - checkout-and-detect
+      - tag-modules
     if: needs.checkout-and-detect.outputs.changed_modules != ''
     runs-on: ubuntu-latest
     steps:

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.smauel</groupId>
     <artifactId>parent</artifactId>
-    <version>1.2.0</version>
+    <version>1.3.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -44,11 +45,11 @@
         <docker.image.name>${project.artifactId}</docker.image.name>
         <docker.image.tag>${project.version}</docker.image.tag>
         <!-- Monorepo Versions (see: VERSIONING.md) -->
-        <parent.auto.version>1.2.0</parent.auto.version>
-        <boms.auto.version>1.1.0</boms.auto.version>
+        <parent.auto.version>1.3.0-SNAPSHOT</parent.auto.version>
+        <boms.auto.version>1.2.0-SNAPSHOT</boms.auto.version>
         <logging-bom.auto.version>1.1.0-SNAPSHOT</logging-bom.auto.version>
         <testing-bom.auto.version>1.1.0-SNAPSHOT</testing-bom.auto.version>
-        <backend.auto.version>1.1.0</backend.auto.version>
+        <backend.auto.version>1.2.0-SNAPSHOT</backend.auto.version>
         <users-api.auto.version>1.1.0-SNAPSHOT</users-api.auto.version>
         <!-- Auto-Versioning Related -->
         <module.auto.version>${parent.auto.version}</module.auto.version>
@@ -113,7 +114,8 @@
                                     <recipie>org.openrewrite.java.testing.assertj.Assertj</recipie>
                                     <recipie>org.openrewrite.java.testing.mockito.MockitoBestPractices</recipie>
                                     <recipie>org.openrewrite.java.testing.junit5.JUnit5BestPractices</recipie>
-                                    <recipie>org.openrewrite.java.testing.testcontainers.TestContainersBestPractices</recipie>
+                                    <recipie>org.openrewrite.java.testing.testcontainers.TestContainersBestPractices
+                                    </recipie>
                                 </activeRecipes>
                             </configuration>
                         </execution>
@@ -207,7 +209,9 @@
                                 <includes>
                                     <include>**/*Test.java</include>
                                 </includes>
-                                <argLine>-javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"</argLine>
+                                <argLine>
+                                    -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                                </argLine>
                             </configuration>
                         </execution>
                     </executions>
