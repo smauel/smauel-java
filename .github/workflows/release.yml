@@ -15,7 +15,7 @@ jobs:
     outputs:
       changed_modules: ${{ steps.changes.outputs.changed_modules }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - uses: ./.github/actions/setup-java-maven
@@ -27,11 +27,23 @@ jobs:
           CHANGED_MODULES=$(./scripts/detect-changes.sh)
           echo "changed_modules=$CHANGED_MODULES" >> $GITHUB_OUTPUT
 
-  build-and-test:
+  lint:
     needs: checkout-and-detect
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-java-maven
+
+      - name: Spotless
+        run: mvn spotless:check
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-and-test:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-java-maven
 
       - name: Build and Test
@@ -46,7 +58,7 @@ jobs:
     if: needs.checkout-and-detect.outputs.changed_modules != ''
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-java-maven
 
       - name: Set module versions (release)
@@ -71,7 +83,7 @@ jobs:
     needs: release-versioning
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-java-maven
 
       - name: Deploy artifacts
@@ -84,7 +96,7 @@ jobs:
     if: needs.checkout-and-detect.outputs.changed_modules != ''
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-java-maven
 
       - name: Tag affected modules
@@ -103,7 +115,7 @@ jobs:
     if: needs.checkout-and-detect.outputs.changed_modules != ''
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-java-maven
 
       - name: Set module versions (snapshot)

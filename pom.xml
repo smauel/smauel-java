@@ -125,49 +125,40 @@
                     <groupId>com.diffplug.spotless</groupId>
                     <artifactId>spotless-maven-plugin</artifactId>
                     <version>${spotless.version}</version>
-                    <executions>
-                        <execution>
-                            <id>spotless-apply</id>
-                            <goals>
-                                <goal>apply</goal>
-                            </goals>
-                            <phase>generate-sources</phase>
-                            <configuration>
-                                <java>
-                                    <cleanthat/>
-                                    <palantirJavaFormat/>
-                                    <importOrder/>
-                                    <removeUnusedImports/>
-                                    <formatAnnotations/>
-                                </java>
-                                <pom>
-                                    <sortPom>
-                                        <nrOfIndentSpace>4</nrOfIndentSpace>
-                                        <expandEmptyElements>false</expandEmptyElements>
-                                    </sortPom>
-                                </pom>
-                                <markdown>
-                                    <includes>
-                                        <include>**/*.md</include>
-                                    </includes>
-                                    <flexmark/>
-                                </markdown>
-                                <json>
-                                    <includes>
-                                        <include>src/**/*.json</include>
-                                    </includes>
-                                    <jackson/>
-                                </json>
-                                <yaml>
-                                    <includes>
-                                        <include>src/**/*.yaml</include>
-                                        <include>src/**/*.yml</include>
-                                    </includes>
-                                    <jackson/>
-                                </yaml>
-                            </configuration>
-                        </execution>
-                    </executions>
+                    <configuration>
+                        <java>
+                            <cleanthat/>
+                            <palantirJavaFormat/>
+                            <importOrder/>
+                            <removeUnusedImports/>
+                            <formatAnnotations/>
+                        </java>
+                        <pom>
+                            <sortPom>
+                                <nrOfIndentSpace>4</nrOfIndentSpace>
+                                <expandEmptyElements>false</expandEmptyElements>
+                            </sortPom>
+                        </pom>
+                        <markdown>
+                            <includes>
+                                <include>**/*.md</include>
+                            </includes>
+                            <flexmark/>
+                        </markdown>
+                        <json>
+                            <includes>
+                                <include>src/**/*.json</include>
+                            </includes>
+                            <jackson/>
+                        </json>
+                        <yaml>
+                            <includes>
+                                <include>src/**/*.yaml</include>
+                                <include>src/**/*.yml</include>
+                            </includes>
+                            <jackson/>
+                        </yaml>
+                    </configuration>
                 </plugin>
 
                 <!-- Compiler Plugin -->
@@ -424,6 +415,15 @@
             <plugin>
                 <groupId>com.diffplug.spotless</groupId>
                 <artifactId>spotless-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>spotless-apply</id>
+                        <goals>
+                            <goal>apply</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -461,10 +461,6 @@
             <id>rewrite</id>
             <build>
                 <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                    </plugin>
                     <plugin>
                         <groupId>org.openrewrite.maven</groupId>
                         <artifactId>rewrite-maven-plugin</artifactId>
