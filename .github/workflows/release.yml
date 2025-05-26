@@ -124,7 +124,7 @@ jobs:
 
       - name: Tag affected modules
         run: |
-          for module in ${{ needs.checkout-and-detect.outputs.changed_modules }}; do
+          for module in "${{ needs.checkout-and-detect.outputs.changed_modules }}"; do
             VERSION_PROPERTY="${module}.auto.version"
             NEW_VERSION=$(grep "<$VERSION_PROPERTY>" pom.xml | sed -E "s/^.*<$VERSION_PROPERTY>(.*)<\/$VERSION_PROPERTY>.*$/\1/")
             TAG_NAME="${module}v${NEW_VERSION}"
