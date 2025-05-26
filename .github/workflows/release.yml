@@ -13,7 +13,15 @@ env:
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
 jobs:
-  checkout-and-detect:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-java-maven
+      - run: mvn -B dependency:go-offline
+
+  detect-changes:
+    needs: setup
     runs-on: ubuntu-latest
     outputs:
       changed_modules: ${{ steps.changes.outputs.changed_modules }}
@@ -22,25 +30,21 @@ jobs:
         with:
           fetch-depth: 0
       - uses: ./.github/actions/setup-java-maven
-
       - name: Detect changed modules
         id: changes
         run: |
-          chmod +x ./scripts/detect-changes.sh
           CHANGED_MODULES=$(./scripts/detect-changes.sh)
           echo "changed_modules<<EOF" >> $GITHUB_OUTPUT
           echo "$CHANGED_MODULES" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
   lint:
-    needs: checkout-and-detect
+    needs: detect-changes
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-java-maven
-
-      - name: Spotless
-        run: mvn spotless:check
+      - run: mvn -B spotless:check
 
   build-and-test:
     needs: lint
@@ -48,15 +52,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-java-maven
-
-      - name: Build and Test
-        run: mvn -B verify
+      - run: mvn -B verify
 
   release-versioning:
     needs:
-      - checkout-and-detect
+      - detect-changes
       - build-and-test
-    if: needs.checkout-and-detect.outputs.changed_modules != ''
+    if: needs.detect-changes.outputs.changed_modules != ''
     runs-on: ubuntu-latest
     steps:
       - uses: actions/create-github-app-token@v1
@@ -64,28 +66,18 @@ jobs:
         with:
           app-id: ${{ vars.AUTO_VERSION_APP_ID }}
           private-key: ${{ secrets.AUTO_VERSION_PRIVATE_KEY }}
-
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           token: ${{ steps.auto-version-token.outputs.token }}
-
       - uses: ./.github/actions/setup-java-maven
-
-      - name: Set module versions (release)
-        run: |
-          chmod +x ./scripts/update-versions.sh
-          ./scripts/update-versions.sh "release" "${{ needs.checkout-and-detect.outputs.changed_modules }}"
-
-      - name: Build with versionRelease
-        run: mvn -B clean verify -PversionRelease
-
-      - name: Commit and push release versions
-        run: |
+      - run: ./scripts/update-versions.sh "release" "${{ needs.detect-changes.outputs.changed_modules }}"
+      - run: mvn -B clean verify -PversionRelease
+      - run: |
           git config user.name "Auto Version"
           git config user.email "autoversion@smauel.com"
           git add .
-          git commit -m "ci: Version modules [${{ needs.checkout-and-detect.outputs.changed_modules }}]" -m "[no ci]"
+          git commit -m "ci: Version modules [${{ needs.detect-changes.outputs.changed_modules }}]" -m "[no ci]"
           git push
 
   publish:
@@ -97,15 +89,13 @@ jobs:
           ref: main
           fetch-depth: 0
       - uses: ./.github/actions/setup-java-maven
-
-      - name: Deploy artifacts
-        run: mvn -B clean deploy -Ppublish
+      - run: mvn -B clean deploy -Ppublish
 
   tag-modules:
     needs:
-      - checkout-and-detect
+      - detect-changes
       - release-versioning
-    if: needs.checkout-and-detect.outputs.changed_modules != ''
+    if: needs.detect-changes.outputs.changed_modules != ''
     runs-on: ubuntu-latest
     steps:
       - uses: actions/create-github-app-token@v1
@@ -113,17 +103,13 @@ jobs:
         with:
           app-id: ${{ vars.AUTO_VERSION_APP_ID }}
           private-key: ${{ secrets.AUTO_VERSION_PRIVATE_KEY }}
-
       - uses: actions/checkout@v4
         with:
           ref: main
           fetch-depth: 0
           token: ${{ steps.auto-version-token.outputs.token }}
-
       - uses: ./.github/actions/setup-java-maven
-
-      - name: Tag affected modules
-        run: |
+      - run: |
           while IFS= read -r module; do
             # Trim leading and trailing whitespace
             module="${module#"${module%%[![:space:]]*}"}"
@@ -138,14 +124,14 @@ jobs:
 
             echo "Creating tag $TAG_NAME"
             git tag -f "$TAG_NAME"
-          done <<< "${{ needs.checkout-and-detect.outputs.changed_modules }}"
+          done <<< "${{ needs.detect-changes.outputs.changed_modules }}"
           git push --tags
 
   prepare-next-version:
     needs:
-      - checkout-and-detect
+      - detect-changes
       - tag-modules
-    if: needs.checkout-and-detect.outputs.changed_modules != ''
+    if: needs.detect-changes.outputs.changed_modules != ''
     runs-on: ubuntu-latest
     steps:
       - uses: actions/create-github-app-token@v1
@@ -153,27 +139,17 @@ jobs:
         with:
           app-id: ${{ vars.AUTO_VERSION_APP_ID }}
           private-key: ${{ secrets.AUTO_VERSION_PRIVATE_KEY }}
-
       - uses: actions/checkout@v4
         with:
           ref: main
           fetch-depth: 0
           token: ${{ steps.auto-version-token.outputs.token }}
-
       - uses: ./.github/actions/setup-java-maven
-
-      - name: Set module versions (snapshot)
-        run: |
-          chmod +x ./scripts/update-versions.sh
-          ./scripts/update-versions.sh "snapshot" "${{ needs.checkout-and-detect.outputs.changed_modules }}"
-
-      - name: Build and Test snapshot
-        run: mvn clean verify -PversionNext
-
-      - name: Commit and push snapshot versions
-        run: |
+      - run: ./scripts/update-versions.sh "snapshot" "${{ needs.detect-changes.outputs.changed_modules }}"
+      - run: mvn -B clean verify -PversionNext
+      - run: |
           git config user.name "Auto Version"
           git config user.email "autoversion@smauel.com"
           git add .
-          git commit -m "ci: Prepare next development cycle for ${{ needs.checkout-and-detect.outputs.changed_modules }}" -m "[no ci]"
+          git commit -m "ci: Prepare next development cycle for ${{ needs.detect-changes.outputs.changed_modules }}" -m "[no ci]"
           git push

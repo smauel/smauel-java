@@ -13,15 +13,21 @@ permissions:
   packages: read
 
 jobs:
-
-  lint:
+  setup:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-java-maven
+      - run: mvn -B dependency:go-offline
 
+  lint:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-java-maven
       - name: Spotless
-        run: mvn spotless:check
+        run: mvn -B spotless:check
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
@@ -31,7 +37,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-java-maven
-
       - name: Build and Test
         run: mvn -B verify
         env:
