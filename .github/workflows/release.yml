@@ -99,7 +99,7 @@ jobs:
       - uses: ./.github/actions/setup-java-maven
 
       - name: Deploy artifacts
-        run: mvn -B clean deploy
+        run: mvn -B clean deploy -Ppublish
 
   tag-modules:
     needs:
