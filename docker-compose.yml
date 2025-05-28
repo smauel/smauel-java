@@ -32,8 +32,24 @@ services:
     networks:
       - app-network
 
+  integration-tests:
+    build:
+      context: ./collections
+      dockerfile: src/main/docker/Dockerfile
+    environment:
+      COLLECTION: users-api
+      ENV: dev
+    depends_on:
+      - users-api
+    volumes:
+      - tests:/app/tests/results
+    networks:
+      - app-network
+
+
 volumes:
   pgdata:
+  tests:
 
 networks:
   app-network:
