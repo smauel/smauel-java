@@ -52,7 +52,7 @@
         <testing-bom.auto.version>1.4.0-SNAPSHOT</testing-bom.auto.version>
         <backend.auto.version>1.5.0-SNAPSHOT</backend.auto.version>
         <users-api.auto.version>1.4.0-SNAPSHOT</users-api.auto.version>
-        <collections.auto.version>1.1.0-SNAPSHOT</collections.auto.version>
+        <collections.auto.version>1.1.0</collections.auto.version>
         <!-- Auto-Versioning Related -->
         <module.auto.version>${parent.auto.version}</module.auto.version>
     </properties>
