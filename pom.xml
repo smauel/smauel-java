@@ -4,7 +4,7 @@
 
     <groupId>org.smauel</groupId>
     <artifactId>parent</artifactId>
-    <version>1.9.0</version>
+    <version>1.10.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -46,13 +46,13 @@
         <docker.image.name>${project.artifactId}</docker.image.name>
         <docker.image.tag>${project.version}</docker.image.tag>
         <!-- Monorepo Versions (see: VERSIONING.md) -->
-        <parent.auto.version>1.9.0</parent.auto.version>
+        <parent.auto.version>1.10.0-SNAPSHOT</parent.auto.version>
         <boms.auto.version>1.5.0-SNAPSHOT</boms.auto.version>
         <logging-bom.auto.version>1.4.0-SNAPSHOT</logging-bom.auto.version>
         <testing-bom.auto.version>1.4.0-SNAPSHOT</testing-bom.auto.version>
         <backend.auto.version>1.5.0-SNAPSHOT</backend.auto.version>
         <users-api.auto.version>1.4.0-SNAPSHOT</users-api.auto.version>
-        <collections.auto.version>1.0.0</collections.auto.version>
+        <collections.auto.version>1.1.0-SNAPSHOT</collections.auto.version>
         <!-- Auto-Versioning Related -->
         <module.auto.version>${parent.auto.version}</module.auto.version>
     </properties>
