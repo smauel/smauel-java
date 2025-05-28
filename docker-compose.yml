@@ -37,19 +37,17 @@ services:
       context: ./collections
       dockerfile: src/main/docker/Dockerfile
     environment:
-      COLLECTION: users-api
+      COLLECTION: integration-tests
       ENV: dev
     depends_on:
       - users-api
     volumes:
-      - tests:/app/tests/results
+      - ./collections/results:/app/tests/results
     networks:
       - app-network
 
-
 volumes:
   pgdata:
-  tests:
 
 networks:
   app-network:

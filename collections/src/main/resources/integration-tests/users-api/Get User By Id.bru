@@ -1,0 +1,22 @@
+meta {
+  name: Get User By Id
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{scheme}}://{{host}}:{{port}}/api/users/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: {{userId}}
+}
+
+assert {
+  res.body.username: eq {{expectedUsername}}
+  res.body.fullName: eq {{expectedFullName}}
+  res.body.email: eq {{expectedEmail}}
+  res.status: eq 200
+}

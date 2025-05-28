@@ -1,0 +1,30 @@
+meta {
+  name: Create User
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{scheme}}://{{host}}:{{port}}/api/users
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "username": "{{$randomUserName}}",
+    "fullName": "{{$randomFullName}}",
+    "email": "{{$randomEmail}}"
+  }
+}
+
+vars:post-response {
+  userId: res.body.id
+  expectedUsername: res.body.username
+  expectedFullName: res.body.fullName
+  expectedEmail: res.body.email
+}
+
+assert {
+  res.status: eq 201
+}

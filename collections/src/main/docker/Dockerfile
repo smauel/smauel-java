@@ -1,6 +1,6 @@
 FROM node:24-alpine
 
-ENV COLLECTION="users-api"
+ENV COLLECTION="integration-tests"
 ENV ENV="dev"
 
 WORKDIR /app
