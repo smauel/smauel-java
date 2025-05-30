@@ -77,7 +77,7 @@ jobs:
       - run: |
           docker compose -f ./docker-compose.yml up --abort-on-container-exit
           EXIT_CODE=$?
-          docker compose -f ./doker-compose.yml down
+          docker compose -f ./docker-compose.yml down
           exit $EXIT_CODE
 
   release-versioning:
@@ -115,7 +115,7 @@ jobs:
           ref: main
           fetch-depth: 0
       - uses: ./.github/actions/setup-java-maven
-      - run: mvn -B clean deploy -Ppublish
+      - run: mvn -B clean deploy -Ppublish,docker
 
   tag-modules:
     needs:

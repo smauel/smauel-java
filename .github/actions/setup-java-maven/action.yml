@@ -15,3 +15,5 @@ runs:
         java-version: 21
         distribution: temurin
     - uses: s4u/maven-settings-action@v3.1.0
+      with:
+        servers: '[{"id": "ghcr.io", "username": "${{ GITHUB_ACTOR }}", "password": "${{ GITHUB_TOKEN }}"}]'

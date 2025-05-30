@@ -394,8 +394,10 @@
                     <artifactId>dockerfile-maven-plugin</artifactId>
                     <version>${maven.dockerfile.version}</version>
                     <configuration>
-                        <repository>${docker.image.name}</repository>
+                        <repository>ghcr.io/smauel/${docker.image.name}</repository>
                         <tag>${docker.image.tag}</tag>
+                        <tag>latest</tag>
+                        <useMavenSettingsForAuth>true</useMavenSettingsForAuth>
                         <buildArgs>
                             <JAR_FILE>${docker.build.jarFile}</JAR_FILE>
                         </buildArgs>
@@ -408,6 +410,13 @@
                                 <goal>build</goal>
                             </goals>
                             <phase>package</phase>
+                        </execution>
+                        <execution>
+                            <id>publish-docker-image</id>
+                            <goals>
+                                <goal>push</goal>
+                            </goals>
+                            <phase>deploy</phase>
                         </execution>
                     </executions>
                 </plugin>

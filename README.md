@@ -66,10 +66,11 @@ TODO: bruno
 
 This project uses Maven profiles for optional tasks:
 
-|  Profile  |      Description      |
-|-----------|-----------------------|
-| `docker`  | Builds a Docker image |
-| `rewrite` | Trigger OpenRewrite   |
+|  Profile  |                       Description                       |
+|-----------|---------------------------------------------------------|
+| `docker`  | Builds a Docker image (pushes images with `mvn deploy`) |
+| `rewrite` | Trigger OpenRewrite                                     |
+| `publish` | Enables javadoc and source jar generation               |
 
 Activate with:
 
