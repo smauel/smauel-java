@@ -13,3 +13,13 @@ fi
 cd "$COLLECTION_DIR"
 
 bru run --env "$ENV" --reporter-json /app/tests/results/results.json --reporter-html /app/tests/results/results.html
+
+TEST_EXIT_CODE=$?
+
+if [ $TEST_EXIT_CODE -ne 0 ]; then
+  echo "Integration tests failed."
+else
+  echo "Integration tests passed."
+fi
+
+exit $TEST_EXIT_CODE

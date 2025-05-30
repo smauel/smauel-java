@@ -66,6 +66,20 @@ jobs:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
 
+  integration-test:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-compose-action@v1
+      - uses: ./.github/actions/setup-java-maven
+      - run: mvn -B package -Pdocker
+      - run: |
+          docker-compose -f ./docker-compose.yml up --abort-on-container-exit
+          EXIT_CODE=$?
+          docker-compose -f ./doker-compose.yml down
+          exit $EXIT_CODE
+
   release-versioning:
     needs:
       - detect-changes
