@@ -18,6 +18,12 @@ services:
       - "8080:8080"  # Map host port 8080 to container port 8080
     networks:
       - app-network
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://127.0.0.1:8080/actuator/health" ]
+      interval: 5s
+      timeout: 2s
+      retries: 5
+      start_period: 3s
 
   db:
     image: postgres:16
@@ -40,7 +46,8 @@ services:
       COLLECTION: integration-tests
       ENV: dev
     depends_on:
-      - users-api
+      users-api:
+        condition: service_healthy
     volumes:
       - ./collections/results:/app/tests/results
     networks:
