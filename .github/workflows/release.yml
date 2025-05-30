@@ -73,17 +73,17 @@ jobs:
       - uses: actions/checkout@v4
       - uses: docker/setup-compose-action@v1
       - uses: ./.github/actions/setup-java-maven
-      - run: mvn -B package -Pdocker
+      - run: mvn -B package -DskipTests -Pdocker
       - run: |
-          docker-compose -f ./docker-compose.yml up --abort-on-container-exit
+          docker compose -f ./docker-compose.yml up --abort-on-container-exit
           EXIT_CODE=$?
-          docker-compose -f ./doker-compose.yml down
+          docker compose -f ./doker-compose.yml down
           exit $EXIT_CODE
 
   release-versioning:
     needs:
       - detect-changes
-      - build-and-test
+      - integration-test
     if: needs.detect-changes.outputs.changed_modules != ''
     runs-on: ubuntu-latest
     steps:
