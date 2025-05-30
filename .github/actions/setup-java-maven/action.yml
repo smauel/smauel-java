@@ -16,4 +16,4 @@ runs:
         distribution: temurin
     - uses: s4u/maven-settings-action@v3.1.0
       with:
-        servers: '[{"id": "ghcr.io", "username": "${{ vars.GITHUB_ACTOR }}", "password": "${{ secrets.GITHUB_TOKEN }}"}]'
+        servers: '[{"id": "ghcr.io", "username": "${{ github.actor }}", "password": "${{ secrets.GITHUB_TOKEN }}"}]'
