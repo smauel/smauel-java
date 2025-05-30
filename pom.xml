@@ -43,6 +43,7 @@
         <maven.deploy.verison>3.1.2</maven.deploy.verison>
         <!-- Docker Builds -->
         <docker.build.jarFile>${project.artifactId}-boot.jar</docker.build.jarFile>
+        <docker.registry>ghcr.io/smauel</docker.registry>
         <docker.image.name>${project.artifactId}</docker.image.name>
         <docker.image.tag>${project.version}</docker.image.tag>
         <!-- Monorepo Versions (see: VERSIONING.md) -->
@@ -394,9 +395,7 @@
                     <artifactId>dockerfile-maven-plugin</artifactId>
                     <version>${maven.dockerfile.version}</version>
                     <configuration>
-                        <repository>ghcr.io/smauel/${docker.image.name}</repository>
-                        <tag>${docker.image.tag}</tag>
-                        <tag>latest</tag>
+                        <repository>${docker.registry}/${docker.image.name}</repository>
                         <useMavenSettingsForAuth>true</useMavenSettingsForAuth>
                         <buildArgs>
                             <JAR_FILE>${docker.build.jarFile}</JAR_FILE>
@@ -405,18 +404,27 @@
                     </configuration>
                     <executions>
                         <execution>
-                            <id>build-docker-image</id>
+                            <id>tag-latest</id>
                             <goals>
                                 <goal>build</goal>
-                            </goals>
-                            <phase>package</phase>
-                        </execution>
-                        <execution>
-                            <id>publish-docker-image</id>
-                            <goals>
+                                <goal>tag</goal>
                                 <goal>push</goal>
                             </goals>
                             <phase>deploy</phase>
+                            <configuration>
+                                <tag>latest</tag>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>tag-version</id>
+                            <goals>
+                                <goal>tag</goal>
+                                <goal>push</goal>
+                            </goals>
+                            <phase>deploy</phase>
+                            <configuration>
+                                <tag>${docker.image.tag}</tag>
+                            </configuration>
                         </execution>
                     </executions>
                 </plugin>
