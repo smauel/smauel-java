@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Input: list of artifactIds (like users-api, collections)
-input_names=("$@")
+# Input: json string representing a list of artifactIds (like "users-api collections")
+IFS=' ' read -r -a input_names <<< "$($1 | jq -r '.')"
 declare -A name_to_path
 
 # Map artifactId -> relative path

@@ -37,7 +37,8 @@ jobs:
       - name: Detect changed modules
         id: changes
         run: |
-          echo "changed_modules=$(./scripts/detect-changes.sh)" >> $GITHUB_OUTPUT
+          CHANGED_MODULES=$(./scripts/detect-changes.sh | jq -Rs .)
+          echo "changed_modules=$CHANGED_MODULES" >> "$GITHUB_OUTPUT"
 
   lint:
     needs: detect-changes
@@ -149,7 +150,7 @@ jobs:
 
             echo "Creating tag $TAG_NAME"
             git tag -f "$TAG_NAME"
-          done <<< "${{ needs.detect-changes.outputs.changed_modules }}"
+          done <<< "$(${{ steps.detect-changes.outputs.changed_modules }} | jq -r '.')"
           git push --tags
 
   prepare-next-version:

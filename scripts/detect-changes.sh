@@ -64,11 +64,11 @@ fi
 # Remove duplicates and print to stdout
 CHANGED_MODULES=$(printf "%s\n" "${AFFECTED_MODULES[@]}" | sort -u)
 
-echo
-echo "======================" >&2
-echo "Changed Modules:" >&2
-echo "${CHANGED_MODULES}" >&2
-echo "======================" >&2
-echo
+{
+  echo "======================"
+  echo "Changed Modules:"
+  echo "${CHANGED_MODULES}"
+  echo "======================"
+} >&2
 
-printf "%s " "${AFFECTED_MODULES[@]}" | sort -u | tr '\n' ' ' | sed 's/ *$//'
+printf "%s " "${CHANGED_MODULES}" | tr '\n' ' ' | sed 's/ *$//'
