@@ -95,7 +95,7 @@ jobs:
           fetch-depth: 0
           token: ${{ steps.auto-version-token.outputs.token }}
       - uses: ./.github/actions/setup-java-maven
-      - run: ./scripts/update-versions.sh "release" "${{ needs.detect-changes.outputs.changed_modules }}"
+      - run: ./scripts/update-versions.sh "release" ${{ needs.detect-changes.outputs.changed_modules }}
       - run: mvn -B clean verify -PversionRelease
       - run: |
           git config user.name "Auto Version"
@@ -115,7 +115,7 @@ jobs:
           ref: main
           fetch-depth: 0
       - uses: ./.github/actions/setup-java-maven
-      - run: mvn -B clean deploy -Ppublish,docker --pl $(./scripts/get-reactor-list.sh "${{ needs.detect-changes.outputs.changed_modules }}")
+      - run: mvn -B clean deploy -Ppublish,docker --pl $(./scripts/get-reactor-list.sh ${{ needs.detect-changes.outputs.changed_modules }})
 
   tag-modules:
     needs:
@@ -136,7 +136,9 @@ jobs:
           token: ${{ steps.auto-version-token.outputs.token }}
       - uses: ./.github/actions/setup-java-maven
       - run: |
-          while IFS= read -r module; do
+          changed_modules_json=${{ needs.detect-changes.outputs.changed_modules }}
+          
+          echo -n "$changed_modules_json" | jq -r '.' | while IFS= read -r module; do
             # Trim leading and trailing whitespace
             module="${module#"${module%%[![:space:]]*}"}"
             module="${module%"${module##*[![:space:]]}"}"
@@ -150,7 +152,7 @@ jobs:
 
             echo "Creating tag $TAG_NAME"
             git tag -f "$TAG_NAME"
-          done <<< "$(${{ steps.detect-changes.outputs.changed_modules }} | jq -r '.')"
+          done
           git push --tags
 
   prepare-next-version:
@@ -171,7 +173,7 @@ jobs:
           fetch-depth: 0
           token: ${{ steps.auto-version-token.outputs.token }}
       - uses: ./.github/actions/setup-java-maven
-      - run: ./scripts/update-versions.sh "snapshot" "${{ needs.detect-changes.outputs.changed_modules }}"
+      - run: ./scripts/update-versions.sh "snapshot" ${{ needs.detect-changes.outputs.changed_modules }}
       - run: mvn -B clean verify -PversionNext
       - run: |
           git config user.name "Auto Version"

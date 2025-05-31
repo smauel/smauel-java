@@ -87,6 +87,27 @@ match, so no updates will be made. But once a change to the target version state
 the parent pom.xml), the versions-maven-plugin will trigger, and module versions and uses of that dependency will be
 updated.
 
+## Lock Files
+
+To help with cascading parent pom changes, we elect to commit "lock" files to the repo that give a complete list of all
+resolved dependencies and plugins that each submodule is using. This helps "detect" when a change in a parent pom can
+have a cascading effect in a submodule. For example, if a parent pom updates the version of a dependency, this can have
+a
+knock-on impact on submodules. One way to tackle this would be to "pin" parent pom versions; however, this becomes a
+chore to manage particularly in deeply nested submodules.
+
+Instead, we decide to generate a `pom.lock` and `plugin.lock` file for each submodule during the build. These files are
+simply the output of a `mvn dependency:tree` and `mvn dependency:resolve-plugins`. We decide to lock the plugins in
+addition to the dependencies as in some cases plugins can have a direct impact on how a build is produced.
+
+These are not "true" lock files, in that they have no bearing on the resolution of dependencies nor do they perform any
+checksums on the resolved artifacts.
+
+> NOTE: it is important that changes to these files are committed. The purpose of these files is to ensure version
+> integrity
+>
+> **TODO**: add a step to the pipeline to fail builds that produce changes to the lock files
+
 ## Automation
 
 Ideally, we want to configure our CI/CD pipelines such that a manual version update never needs to be made. The
@@ -98,7 +119,7 @@ determine which modules have been updated. Once the modules have been identified
 updated to drop the `-SNAPSHOT` in the main pom.xml. A new build is triggered, and if the build passes, the updates are
 committed.
 
-After the release versions have been committed a git tag is produced for each changed module. Each module is tagged
+After the release versions have been committed, a git tag is produced for each changed module. Each module is tagged
 independently (e.g. `users-apiv1.2.0`). In parallel, the newly created release versions are published to the maven
 registry
 
@@ -106,7 +127,7 @@ Once the release versions have been updated, committed, tagged, and published, a
 made to increment the version and re-append the `-SNAPSHOT`, ready for the next round of development. This time, only
 the module version itself is updated, leaving any dependent modules on the newly created release version.
 
-> **TODO**: Currently only minor version bumps are catered for. Breaking change major bumps and hotfix bumps still need
+> **TODO**: Currently only minor version bumps are catered for. Breaking changes major bumps and hotfix bumps still need
 > to be worked on
 
 ### Example
