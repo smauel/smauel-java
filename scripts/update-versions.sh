@@ -8,7 +8,7 @@ if [[ $# -lt 2 ]]; then
 fi
 
 MODE=$1
-JSON_MODULES=$2
+MODULES=$2
 
 # Update version in the main pom.xml
 update_version() {
@@ -38,6 +38,6 @@ update_version() {
 }
 
 # Process all affected modules
-for module in $(echo $JSON_MODULES | jq -r '.'); do
+for module in  $MODULES; do
   update_version "$module" "$MODE"
 done
