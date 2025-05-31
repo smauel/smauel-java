@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Input: list of artifactIds (like users-api, collections)
-input_names=("$@")
+MODULES=$1
 declare -A name_to_path
 
 # Map artifactId -> relative path
@@ -13,7 +13,8 @@ done < <(find . -name pom.xml -print0)
 
 # Match input names to paths
 resolved_paths=()
-for name in "${input_names[@]}"; do
+for name in $MODULES; do
+  echo "name: $name"
   if [[ -n "${name_to_path[$name]}" ]]; then
     # Strip leading ./ for clean output
     path="${name_to_path[$name]}"
