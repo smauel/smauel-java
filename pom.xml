@@ -41,6 +41,9 @@
         <maven.dockerfile.version>1.4.13</maven.dockerfile.version>
         <maven.versions.version>2.18.0</maven.versions.version>
         <maven.deploy.verison>3.1.2</maven.deploy.verison>
+        <maven.dependency.version>3.7.0</maven.dependency.version>
+        <!-- Lock File -->
+        <skip.lock.file>false</skip.lock.file>
         <!-- Docker Builds -->
         <docker.build.jarFile>${project.artifactId}-boot.jar</docker.build.jarFile>
         <docker.registry>ghcr.io/smauel</docker.registry>
@@ -163,6 +166,15 @@
                             <jackson/>
                         </yaml>
                     </configuration>
+                    <executions>
+                        <execution>
+                            <id>spotless</id>
+                            <goals>
+                                <goal>apply</goal>
+                            </goals>
+                            <phase>generate-sources</phase>
+                        </execution>
+                    </executions>
                 </plugin>
 
                 <!-- Compiler Plugin -->
@@ -429,10 +441,42 @@
                     </executions>
                 </plugin>
 
+                <!-- Deploy Plugin -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-deploy-plugin</artifactId>
                     <version>${maven.deploy.verison}</version>
+                </plugin>
+
+                <!-- Dependency Plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>${maven.dependency.version}</version>
+                    <executions>
+                        <execution>
+                            <id>plugin-lock</id>
+                            <goals>
+                                <goal>resolve-plugins</goal>
+                            </goals>
+                            <phase>validate</phase>
+                            <configuration>
+                                <skip>${skip.lock.file}</skip>
+                                <outputFile>${project.basedir}/plugin.lock</outputFile>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>dependency-lock</id>
+                            <goals>
+                                <goal>tree</goal>
+                            </goals>
+                            <phase>validate</phase>
+                            <configuration>
+                                <skip>${skip.lock.file}</skip>
+                                <outputFile>${project.basedir}/pom.lock</outputFile>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -441,15 +485,6 @@
             <plugin>
                 <groupId>com.diffplug.spotless</groupId>
                 <artifactId>spotless-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>spotless-apply</id>
-                        <goals>
-                            <goal>apply</goal>
-                        </goals>
-                        <phase>generate-sources</phase>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -471,12 +506,19 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
 
     <profiles>
         <profile>
             <id>rewrite</id>
+            <properties>
+                <skip.lock.file>true</skip.lock.file>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
@@ -488,6 +530,9 @@
         </profile>
         <profile>
             <id>versionRelease</id>
+            <properties>
+                <skip.lock.file>true</skip.lock.file>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
@@ -514,6 +559,9 @@
         </profile>
         <profile>
             <id>versionNext</id>
+            <properties>
+                <skip.lock.file>true</skip.lock.file>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
@@ -541,6 +589,9 @@
         </profile>
         <profile>
             <id>publish</id>
+            <properties>
+                <skip.lock.file>true</skip.lock.file>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
