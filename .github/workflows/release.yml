@@ -37,10 +37,7 @@ jobs:
       - name: Detect changed modules
         id: changes
         run: |
-          CHANGED_MODULES=$(./scripts/detect-changes.sh)
-          echo "changed_modules<<EOF" >> $GITHUB_OUTPUT
-          echo "$CHANGED_MODULES" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          echo "changed_modules=$(./scripts/detect-changes.sh)" >> $GITHUB_OUTPUT
 
   lint:
     needs: detect-changes
@@ -107,7 +104,9 @@ jobs:
           git push
 
   publish:
-    needs: release-versioning
+    needs:
+      - detect-changes
+      - release-versioning
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -115,7 +114,7 @@ jobs:
           ref: main
           fetch-depth: 0
       - uses: ./.github/actions/setup-java-maven
-      - run: mvn -B clean deploy -Ppublish,docker
+      - run: mvn -B clean deploy -Ppublish,docker --pl $(./scripts/get-reactor-list.sh "${{ needs.detect-changes.outputs.changed_modules }}")
 
   tag-modules:
     needs:
