@@ -115,7 +115,7 @@ jobs:
           ref: main
           fetch-depth: 0
       - uses: ./.github/actions/setup-java-maven
-      - run: mvn -B clean deploy -Ppublish,docker --pl $(./scripts/get-reactor-list.sh ${{ needs.detect-changes.outputs.changed_modules }})
+      - run: mvn clean install -DskipTests && mvn -B deploy -DskipTests -Ppublish,docker --pl $(./scripts/get-reactor-list.sh ${{ needs.detect-changes.outputs.changed_modules }})
 
   tag-modules:
     needs:
@@ -134,26 +134,7 @@ jobs:
           ref: main
           fetch-depth: 0
           token: ${{ steps.auto-version-token.outputs.token }}
-      - uses: ./.github/actions/setup-java-maven
-      - run: |
-          changed_modules_json=${{ needs.detect-changes.outputs.changed_modules }}
-          
-          echo -n "$changed_modules_json" | jq -r '.' | while IFS= read -r module; do
-            # Trim leading and trailing whitespace
-            module="${module#"${module%%[![:space:]]*}"}"
-            module="${module%"${module##*[![:space:]]}"}"
-
-            # Skip empty lines
-            [ -z "$module" ] && continue
-
-            VERSION_PROPERTY="${module}.auto.version"
-            NEW_VERSION=$(grep "<$VERSION_PROPERTY>" pom.xml | sed -E "s/^.*<$VERSION_PROPERTY>(.*)<\/$VERSION_PROPERTY>.*$/\1/")
-            TAG_NAME="${module}v${NEW_VERSION}"
-
-            echo "Creating tag $TAG_NAME"
-            git tag -f "$TAG_NAME"
-          done
-          git push --tags
+      - run: ./scripts/tag-modules.sh ${{ needs.detect-changes.outputs.changed_modules }}
 
   prepare-next-version:
     needs:

@@ -14,7 +14,6 @@ done < <(find . -name pom.xml -print0)
 # Match input names to paths
 resolved_paths=()
 for name in $MODULES; do
-  echo "name: $name"
   if [[ -n "${name_to_path[$name]}" ]]; then
     # Strip leading ./ for clean output
     path="${name_to_path[$name]}"
