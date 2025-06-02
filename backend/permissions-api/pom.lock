@@ -1,4 +1,4 @@
-org.smauel:users-api:jar:1.1.0-SNAPSHOT
+org.smauel:permissions-api:jar:1.0.0-SNAPSHOT
 +- org.springframework.boot:spring-boot-starter-web:jar:3.5.0:compile
 |  +- org.springframework.boot:spring-boot-starter:jar:3.5.0:compile
 |  |  +- org.springframework.boot:spring-boot:jar:3.5.0:compile
@@ -75,6 +75,7 @@ org.smauel:users-api:jar:1.1.0-SNAPSHOT
 |        +- org.hdrhistogram:HdrHistogram:jar:2.2.2:runtime
 |        \- org.latencyutils:LatencyUtils:jar:2.0.3:runtime
 +- org.projectlombok:lombok:jar:1.18.38:provided
++- org.mapstruct:mapstruct:jar:1.5.5.Final:compile
 +- com.h2database:h2:jar:2.3.232:runtime
 +- org.postgresql:postgresql:jar:42.7.4:runtime
 |  \- org.checkerframework:checker-qual:jar:3.42.0:runtime

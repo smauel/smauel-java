@@ -22,8 +22,10 @@
     </distributionManagement>
 
     <properties>
+        <java.version>21</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <lombok.version>1.18.38</lombok.version>
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
         <rewrite.version>6.8.1</rewrite.version>
         <rewrite.logging.version>3.8.0</rewrite.logging.version>
         <rewrite.testing.version>3.8.0</rewrite.testing.version>
@@ -57,6 +59,7 @@
         <backend.auto.version>1.2.0-SNAPSHOT</backend.auto.version>
         <users-api.auto.version>1.2.0-SNAPSHOT</users-api.auto.version>
         <collections.auto.version>1.2.0-SNAPSHOT</collections.auto.version>
+        <permissions-api.auto.version>1.0.0-SNAPSHOT</permissions-api.auto.version>
         <!-- Auto-Versioning Related -->
         <module.auto.version>${parent.auto.version}</module.auto.version>
     </properties>
@@ -67,6 +70,11 @@
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -80,6 +88,14 @@
     </repositories>
 
     <build>
+
+        <!-- Enable resource filtering -->
+        <resources>
+            <resource>
+                <filtering>true</filtering>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
         <pluginManagement>
             <plugins>
 
@@ -183,9 +199,9 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${maven.compiler.version}</version>
                     <configuration>
-                        <source>21</source>
-                        <target>21</target>
-                        <release>17</release>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                        <release>${java.version}</release>
                         <compilerArgs>
                             <arg>-Xlint:all,-serial,-processing</arg>
                             <arg>-Werror</arg>
@@ -196,6 +212,11 @@
                                 <groupId>org.projectlombok</groupId>
                                 <artifactId>lombok</artifactId>
                                 <version>${lombok.version}</version>
+                            </path>
+                            <path>
+                                <groupId>org.mapstruct</groupId>
+                                <artifactId>mapstruct-processor</artifactId>
+                                <version>${mapstruct.version}</version>
                             </path>
                         </annotationProcessorPaths>
                     </configuration>
