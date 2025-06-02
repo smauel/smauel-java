@@ -96,7 +96,8 @@ jobs:
           token: ${{ steps.auto-version-token.outputs.token }}
       - uses: ./.github/actions/setup-java-maven
       - run: ./scripts/update-versions.sh "release" ${{ needs.detect-changes.outputs.changed_modules }}
-      - run: mvn -B clean verify -PversionRelease
+      - run: mvn -B clean verify -PversionRelease # update the release versions
+      - run: mvn -B validate # generate the new lock files
       - run: |
           git config user.name "Auto Version"
           git config user.email "autoversion@smauel.com"
@@ -155,7 +156,8 @@ jobs:
           token: ${{ steps.auto-version-token.outputs.token }}
       - uses: ./.github/actions/setup-java-maven
       - run: ./scripts/update-versions.sh "snapshot" ${{ needs.detect-changes.outputs.changed_modules }}
-      - run: mvn -B clean verify -PversionNext
+      - run: mvn -B clean verify -PversionNext # update the snapshot versions
+      - run: mvn -B validate # generate the new lock files
       - run: |
           git config user.name "Auto Version"
           git config user.email "autoversion@smauel.com"
