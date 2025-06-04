@@ -74,6 +74,7 @@ org.smauel:users-api:jar:1.1.0-SNAPSHOT
 |     \- io.micrometer:micrometer-core:jar:1.15.0:compile
 |        +- org.hdrhistogram:HdrHistogram:jar:2.2.2:runtime
 |        \- org.latencyutils:LatencyUtils:jar:2.0.3:runtime
++- org.mapstruct:mapstruct:jar:1.5.5.Final:compile
 +- org.projectlombok:lombok:jar:1.18.38:provided
 +- com.h2database:h2:jar:2.3.232:runtime
 +- org.postgresql:postgresql:jar:42.7.4:runtime

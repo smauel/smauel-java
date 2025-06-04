@@ -1,7 +1,7 @@
 meta {
-  name: Get User By Id
+  name: Get Updated User By Id
   type: http
-  seq: 2
+  seq: 5
 }
 
 get {
@@ -16,7 +16,7 @@ params:path {
 
 assert {
   res.body.username: eq {{username}}
-  res.body.fullName: eq {{fullName}}
-  res.body.email: eq {{email}}
+  res.body.fullName: eq {{updatedFullName}}
+  res.body.email: eq {{updatedEmail}}
   res.status: eq 200
 }

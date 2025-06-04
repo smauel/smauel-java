@@ -1,44 +1,82 @@
 package org.smauel.users.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
-import org.smauel.users.model.User;
+import lombok.RequiredArgsConstructor;
+import org.smauel.users.dto.UserDto;
+import org.smauel.users.dto.request.CreateUserRequest;
+import org.smauel.users.dto.request.UpdateUserRequest;
 import org.smauel.users.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * API of users
+ * API for user management
  */
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/v1/users")
+@RequiredArgsConstructor
+@Validated
 public class UserController {
-    @Autowired
-    private UserService service;
+    private final UserService userService;
 
     /**
      * Create a new user
      *
-     * @param user The user to be created
+     * @param request The user creation request
      * @return The created user
      */
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        return new ResponseEntity<>(service.createUser(user), HttpStatus.CREATED);
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody CreateUserRequest request) {
+        UserDto user = userService.createUser(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
     /**
-     * Retrieve a user given an id
+     * Update an existing user
+     *
+     * @param id The id of the user to update
+     * @param request The update request
+     * @return The updated user
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @Valid @RequestBody UpdateUserRequest request) {
+        UserDto user = userService.updateUser(id, request);
+        return ResponseEntity.ok(user);
+    }
+
+    /**
+     * Retrieve a user by id
      *
      * @param id The id of the user to retrieve
      * @return The user, if found, else 404
      */
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUser(@PathVariable Long id) {
-        return service.getUserById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
+        try {
+            UserDto user = userService.getUserById(id);
+            return ResponseEntity.ok(user);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    /**
+     * Retrieve a user by username
+     *
+     * @param username The username to search for
+     * @return The user, if found, else 404
+     */
+    @GetMapping("/username/{username}")
+    public ResponseEntity<UserDto> getUserByUsername(@PathVariable String username) {
+        try {
+            UserDto user = userService.getUserByUsername(username);
+            return ResponseEntity.ok(user);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     /**
@@ -47,7 +85,20 @@ public class UserController {
      * @return All users
      */
     @GetMapping
-    public List<User> getAllUsers() {
-        return service.getAllUsers();
+    public ResponseEntity<List<UserDto>> getAllUsers() {
+        List<UserDto> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
+    }
+
+    /**
+     * Delete a user
+     *
+     * @param id The id of the user to delete
+     * @return 204 No Content on success
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
     }
 }

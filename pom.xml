@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.smauel</groupId>
@@ -26,6 +27,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <lombok.version>1.18.38</lombok.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <lombok.mapstruct.binding.version>0.2.0</lombok.mapstruct.binding.version>
         <rewrite.version>6.8.1</rewrite.version>
         <rewrite.logging.version>3.8.0</rewrite.logging.version>
         <rewrite.testing.version>3.8.0</rewrite.testing.version>
@@ -136,7 +138,8 @@
                                     <recipie>org.openrewrite.java.testing.assertj.Assertj</recipie>
                                     <recipie>org.openrewrite.java.testing.mockito.MockitoBestPractices</recipie>
                                     <recipie>org.openrewrite.java.testing.junit5.JUnit5BestPractices</recipie>
-                                    <recipie>org.openrewrite.java.testing.testcontainers.TestContainersBestPractices</recipie>
+                                    <recipie>org.openrewrite.java.testing.testcontainers.TestContainersBestPractices
+                                    </recipie>
                                 </activeRecipes>
                             </configuration>
                         </execution>
@@ -218,6 +221,11 @@
                                 <artifactId>mapstruct-processor</artifactId>
                                 <version>${mapstruct.version}</version>
                             </path>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok-mapstruct-binding</artifactId>
+                                <version>${lombok.mapstruct.binding.version}</version>
+                            </path>
                         </annotationProcessorPaths>
                     </configuration>
                 </plugin>
@@ -244,7 +252,9 @@
                                 <includes>
                                     <include>**/*Test.java</include>
                                 </includes>
-                                <argLine>-javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"</argLine>
+                                <argLine>
+                                    -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                                </argLine>
                             </configuration>
                         </execution>
                     </executions>

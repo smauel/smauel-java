@@ -42,14 +42,14 @@ class UserControllerAT {
 
     @Test
     @DisplayName("Should be able to create a user when valid params")
-    @Description("POST /api/users")
+    @Description("POST /api/v1/users")
     void shouldCreateUserSuccessfully() throws Exception {
         User user = new User();
         user.setUsername("johndoe");
         user.setFullName("John Doe");
         user.setEmail("john@example.com");
 
-        mockMvc.perform(post("/api/users")
+        mockMvc.perform(post("/api/v1/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(user)))
                 .andExpect(status().isCreated())
@@ -59,7 +59,7 @@ class UserControllerAT {
 
     @Test
     @DisplayName("Should return user by id when found")
-    @Description("GET /api/users/{id}")
+    @Description("GET /api/v1/users/{id}")
     void shouldReturnUserById() throws Exception {
         User user = new User();
         user.setUsername("janedoe");
@@ -67,14 +67,14 @@ class UserControllerAT {
         user.setEmail("jane@example.com");
         user = userRepository.save(user);
 
-        mockMvc.perform(get("/api/users/" + user.getId()))
+        mockMvc.perform(get("/api/v1/users/" + user.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.username").value("janedoe"));
     }
 
     @Test
     @DisplayName("Should return all users")
-    @Description("GET /api/users")
+    @Description("GET /api/v1/users")
     void shouldReturnAllUsers() throws Exception {
         User user1 = User.builder()
                 .username("user1")
@@ -88,7 +88,7 @@ class UserControllerAT {
                 .build();
         userRepository.saveAll(List.of(user1, user2));
 
-        mockMvc.perform(get("/api/users"))
+        mockMvc.perform(get("/api/v1/users"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(2));
     }

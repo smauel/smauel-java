@@ -5,7 +5,7 @@ meta {
 }
 
 post {
-  url: {{scheme}}://{{host}}:{{port}}/api/users
+  url: {{scheme}}://{{host}}:{{port}}/api/v1/users
   body: json
   auth: inherit
 }
@@ -20,9 +20,9 @@ body:json {
 
 vars:post-response {
   userId: res.body.id
-  expectedUsername: res.body.username
-  expectedFullName: res.body.fullName
-  expectedEmail: res.body.email
+  username: res.body.username
+  fullName: res.body.fullName
+  email: res.body.email
 }
 
 assert {

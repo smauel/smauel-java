@@ -1,0 +1,31 @@
+meta {
+  name: Update User
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{scheme}}://{{host}}:{{port}}/api/v1/users/:id
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id: {{userId}}
+}
+
+body:json {
+  {
+    "fullName": "{{$randomFullName}}",
+    "email": "{{$randomEmail}}"
+  }
+}
+
+vars:post-response {
+  updatedFullName: res.body.fullName
+  updatedEmail: res.body.email
+}
+
+assert {
+  res.status: eq 200
+}
