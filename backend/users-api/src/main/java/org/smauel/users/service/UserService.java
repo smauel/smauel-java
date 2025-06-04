@@ -1,12 +1,12 @@
 package org.smauel.users.service;
 
-import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.smauel.users.dto.UserDto;
 import org.smauel.users.dto.request.CreateUserRequest;
 import org.smauel.users.dto.request.UpdateUserRequest;
+import org.smauel.users.exception.UserNotFoundException;
 import org.smauel.users.mapper.UserMapper;
 import org.smauel.users.model.User;
 import org.smauel.users.repository.UserRepository;
@@ -47,9 +47,7 @@ public class UserService {
      * @return The updated user response
      */
     public UserDto updateUser(Long id, UpdateUserRequest request) {
-        User user = userRepository
-                .findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
 
         if (!request.getEmail().isEmpty() && !request.getEmail().isBlank()) {
             user.setEmail(request.getEmail());
@@ -68,12 +66,10 @@ public class UserService {
      *
      * @param id The id of the user to retrieve
      * @return The user response if found
-     * @throws EntityNotFoundException if user not found
+     * @throws UserNotFoundException if user not found
      */
     public UserDto getUserById(Long id) {
-        User user = userRepository
-                .findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
         return userMapper.toDto(user);
     }
 
@@ -82,12 +78,10 @@ public class UserService {
      *
      * @param username The username to search for
      * @return The user response if found
-     * @throws EntityNotFoundException if user not found
+     * @throws UserNotFoundException if user not found
      */
     public UserDto getUserByUsername(String username) {
-        User user = userRepository
-                .findByUsername(username)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with username: " + username));
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
         return userMapper.toDto(user);
     }
 
@@ -108,7 +102,7 @@ public class UserService {
      */
     public void deleteUser(Long id) {
         if (!userRepository.existsById(id)) {
-            throw new EntityNotFoundException("User not found with id: " + id);
+            throw new UserNotFoundException(id);
         }
         userRepository.deleteById(id);
     }
