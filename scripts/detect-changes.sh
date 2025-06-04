@@ -12,17 +12,20 @@ fi
 
 echo "Comparing HEAD to $LAST_RELEASE_TAG" >&2
 
-# Get a list of all changed files since the last release (except those changed by the auto-versioning tool).
+# Get a list of all relevant commits since the last release (except those changed by the auto-versioning tool).
 #   - git log --pretty=format:'%H %ae': Outputs each commit hash and its author email.
 #   - grep -v ' autoversion@smauel.com$': Excludes lines with that author.
 #   - cut -d' ' -f1: Extracts just the commit hashes.
+RELEVANT_COMMITS=$(git log --pretty=format:'%H %ae' users-apiv1.2.0..HEAD | grep -v 'autoversion@smauel.com' | cut -d' ' -f1)
+CHANGED_FILES=""
+
+if [ -n "$RELEVANT_COMMITS" ]; then
 #   - xargs -n1 git show --pretty=format: --name-only: Gets the list of files changed in each commit.
 #   - sort -u: Deduplicates the file list.
-CHANGED_FILES=$(git log --pretty=format:'%H %ae' "$LAST_RELEASE_TAG"..HEAD \
-  | grep -v ' autoversion@smauel.com$' \
-  | cut -d' ' -f1 \
-  | xargs -n1 git show --pretty=format: --name-only \
-  | sort -u)
+  CHANGED_FILES=$(echo "$RELEVANT_COMMITS" \
+    | xargs -n1 git show --pretty=format: --name-only \
+    | sort -u)
+fi
 
 # Prepare a list of affected modules
 AFFECTED_MODULES=()
