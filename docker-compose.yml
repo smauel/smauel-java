@@ -15,7 +15,31 @@ services:
     depends_on:
       - db
     ports:
-      - "8080:8080"  # Map host port 8080 to container port 8080
+      - "8080:8080"
+    networks:
+      - app-network
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://127.0.0.1:8080/actuator/health" ]
+      interval: 5s
+      timeout: 2s
+      retries: 5
+      start_period: 3s
+
+  permissions-api:
+    build:
+      context: ./backend/permissions-api/
+      dockerfile: src/main/docker/Dockerfile
+      args:
+        JAR_FILE: permissions-api-boot.jar
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      DATASOURCE_URL: jdbc:postgresql://db:5432/permissionsdb
+      DATASOURCE_USERNAME: user
+      DATASOURCE_PASSWORD: password
+    depends_on:
+      - db
+    ports:
+      - "8081:8080"
     networks:
       - app-network
     healthcheck:
@@ -28,12 +52,12 @@ services:
   db:
     image: postgres:16
     environment:
-      POSTGRES_DB: usersdb
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
     ports:
       - "5432:5432"  # Optional: expose for external DB tools
     volumes:
+      - ./scripts/init-docker-dbs.sh:/docker-entrypoint-initdb.d/init-docker-dbs.sh
       - pgdata:/var/lib/postgresql/data
     networks:
       - app-network
