@@ -10,12 +10,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserPermissionDto {
+public class UserRoleAssignmentDto {
     private Long id;
     private Long userId;
-    private PermissionDto permission;
     private RoleDto role;
+    private LocalDateTime assignedAt;
+    private Long assignedBy;
     private LocalDateTime expiresAt;
-    private LocalDateTime grantedAt;
-    private Long grantedBy;
 }
