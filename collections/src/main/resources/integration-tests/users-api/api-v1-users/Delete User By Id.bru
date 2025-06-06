@@ -1,10 +1,10 @@
 meta {
-  name: Get User That No Longer Exists
+  name: Delete User By Id
   type: http
-  seq: 7
+  seq: 1
 }
 
-get {
+delete {
   url: {{users-api}}/api/v1/users/:id
   body: none
   auth: inherit
@@ -15,5 +15,5 @@ params:path {
 }
 
 assert {
-  res.status: eq 404
+  res.status: eq 204
 }

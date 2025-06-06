@@ -1,17 +1,17 @@
 meta {
-  name: Get User By Id
+  name: Get User By Username
   type: http
-  seq: 2
+  seq: 1
 }
 
 get {
-  url: {{users-api}}/api/v1/users/:id
+  url: {{users-api}}/api/v1/users/username/:username
   body: none
   auth: inherit
 }
 
 params:path {
-  id: {{userId}}
+  username: {{username}}
 }
 
 assert {

@@ -1,0 +1,19 @@
+meta {
+  name: Get User That No Longer Exists
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{users-api}}/api/v1/users/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: {{userId}}
+}
+
+assert {
+  res.status: eq 404
+}

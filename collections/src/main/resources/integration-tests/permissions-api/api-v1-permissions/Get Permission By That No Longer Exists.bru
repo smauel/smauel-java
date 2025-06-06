@@ -1,0 +1,19 @@
+meta {
+  name: Get Permission By That No Longer Exists
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{permissions-api}}/api/v1/permissions/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: {{permissionId}}
+}
+
+assert {
+  res.status: eq 404
+}

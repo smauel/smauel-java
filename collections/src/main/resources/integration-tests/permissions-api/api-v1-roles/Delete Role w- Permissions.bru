@@ -1,0 +1,19 @@
+meta {
+  name: Delete Role w/ Permissions
+  type: http
+  seq: 1
+}
+
+delete {
+  url: {{permissions-api}}/api/v1/roles/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: {{roleId}}
+}
+
+assert {
+  res.status: eq 204
+}

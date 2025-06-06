@@ -1,0 +1,22 @@
+meta {
+  name: Get Updated User By Id
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{users-api}}/api/v1/users/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: {{userId}}
+}
+
+assert {
+  res.body.username: eq {{username}}
+  res.body.fullName: eq {{updatedFullName}}
+  res.body.email: eq {{updatedEmail}}
+  res.status: eq 200
+}

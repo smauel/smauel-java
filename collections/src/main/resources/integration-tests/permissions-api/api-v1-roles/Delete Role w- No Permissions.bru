@@ -1,17 +1,17 @@
 meta {
-  name: Delete User By Id
+  name: Delete Role w/ No Permissions
   type: http
-  seq: 6
+  seq: 1
 }
 
 delete {
-  url: {{users-api}}/api/v1/users/:id
+  url: {{permissions-api}}/api/v1/roles/:id
   body: none
   auth: inherit
 }
 
 params:path {
-  id: {{userId}}
+  id: {{roleId}}
 }
 
 assert {

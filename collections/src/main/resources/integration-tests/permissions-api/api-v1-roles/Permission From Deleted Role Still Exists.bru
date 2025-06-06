@@ -1,0 +1,20 @@
+meta {
+  name: Permission From Deleted Role Still Exists
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{permissions-api}}/api/v1/permissions/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: {{rolePermissionId}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.id: eq {{rolePermissionId}}
+}

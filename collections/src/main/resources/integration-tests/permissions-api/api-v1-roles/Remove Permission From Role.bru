@@ -1,0 +1,35 @@
+meta {
+  name: Remove Permission From Role
+  type: http
+  seq: 1
+}
+
+delete {
+  url: {{permissions-api}}/api/v1/roles/:roleId/permissions/:permissionId
+  body: none
+  auth: inherit
+}
+
+params:path {
+  permissionId: 1
+  roleId: {{roleId}}
+}
+
+body:json {
+  {
+    "name": "NEW_ROLE",
+    "description": "My cool new role",
+    "permissionIds": [
+    ]
+  }
+}
+
+vars:post-response {
+  roleId: res.body.id
+  roleName: res.body.name
+}
+
+assert {
+  res.status: eq 200
+  res.body.permissions: length 0
+}

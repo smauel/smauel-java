@@ -1,0 +1,16 @@
+meta {
+  name: Get All Roles
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{permissions-api}}/api/v1/roles
+  body: none
+  auth: inherit
+}
+
+assert {
+  res.status: eq 200
+  res.body: length 3
+}

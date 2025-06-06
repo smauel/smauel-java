@@ -1,0 +1,20 @@
+meta {
+  name: Get Role By Name
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{permissions-api}}/api/v1/roles/name/:name
+  body: none
+  auth: inherit
+}
+
+params:path {
+  name: {{roleName}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.name: eq {{roleName}}
+}

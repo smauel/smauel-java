@@ -1,0 +1,19 @@
+meta {
+  name: Get Role That No Longer Exists
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{permissions-api}}/api/v1/roles/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: {{roleId}}
+}
+
+assert {
+  res.status: eq 404
+}

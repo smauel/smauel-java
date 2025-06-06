@@ -1,0 +1,19 @@
+meta {
+  name: Delete Permission
+  type: http
+  seq: 1
+}
+
+delete {
+  url: {{permissions-api}}/api/v1/permissions/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: {{permissionId}}
+}
+
+assert {
+  res.status: eq 204
+}

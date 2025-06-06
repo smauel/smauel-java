@@ -1,0 +1,22 @@
+meta {
+  name: Get Permission By Name
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{permissions-api}}/api/v1/permissions/name/:name
+  body: none
+  auth: inherit
+}
+
+params:path {
+  name: {{permissionName}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.name: eq {{permissionName}}
+  res.body.type: eq {{permissionType}}
+  res.body.action: eq {{permissionAction}}
+}
