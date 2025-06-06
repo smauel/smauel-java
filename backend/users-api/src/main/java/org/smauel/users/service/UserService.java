@@ -49,11 +49,11 @@ public class UserService {
     public UserDto updateUser(Long id, UpdateUserRequest request) {
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
 
-        if (!request.getEmail().isEmpty() && !request.getEmail().isBlank()) {
+        if (request.getEmail() != null && !request.getEmail().isBlank()) {
             user.setEmail(request.getEmail());
         }
 
-        if (!request.getFullName().isEmpty() && !request.getFullName().isBlank()) {
+        if (request.getFullName() != null && !request.getFullName().isBlank()) {
             user.setFullName(request.getFullName());
         }
 
