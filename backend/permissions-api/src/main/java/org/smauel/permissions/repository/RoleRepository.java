@@ -10,9 +10,9 @@ import org.springframework.stereotype.Repository;
 public interface RoleRepository extends JpaRepository<Role, Long> {
     Optional<Role> findByName(String name);
 
-    @Query("SELECT r FROM Role r JOIN FETCH r.permissions WHERE r.id = :id")
+    @Query("SELECT r FROM Role r LEFT JOIN FETCH r.permissions WHERE r.id = :id")
     Optional<Role> findByIdWithPermissions(Long id);
 
-    @Query("SELECT r FROM Role r JOIN FETCH r.permissions WHERE r.name = :name")
+    @Query("SELECT r FROM Role r LEFT JOIN FETCH r.permissions WHERE r.name = :name")
     Optional<Role> findByNameWithPermissions(String name);
 }
