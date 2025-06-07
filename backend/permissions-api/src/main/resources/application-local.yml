@@ -5,7 +5,3 @@ spring:
     username: "${DATASOURCE_USERNAME}"
     password: "${DATASOURCE_PASSWORD}"
     driver-class-name: "org.postgresql.Driver"
-  jpa:
-    hibernate:
-      ddl-auto: "update"
-    show-sql: true
