@@ -1,4 +1,4 @@
-org.smauel:permissions-api:jar:1.1.0-SNAPSHOT
+org.smauel:permissions-api:jar:1.1.0
 +- org.springframework.boot:spring-boot-starter-web:jar:3.5.0:compile
 |  +- org.springframework.boot:spring-boot-starter:jar:3.5.0:compile
 |  |  +- org.springframework.boot:spring-boot:jar:3.5.0:compile
