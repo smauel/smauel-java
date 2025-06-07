@@ -72,6 +72,8 @@ services:
     depends_on:
       users-api:
         condition: service_healthy
+      permissions-api:
+        condition: service_healthy
     volumes:
       - ./collections/results:/app/tests/results
     networks:
