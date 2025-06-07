@@ -38,7 +38,7 @@ public class UserRoleService {
                 .orElseThrow(() -> new RoleNotFoundException(request.getRoleName()));
 
         // Check if the user already has this role
-        if (userRoleAssignmentRepository.existsByUserIdAndRole_Id(userId, role.getId())) {
+        if (userRoleAssignmentRepository.existsActiveByUserIdAndRoleId(userId, role.getId(), LocalDateTime.now())) {
             throw new RoleAlreadyAssignedException(userId, role.getName());
         }
 
@@ -61,6 +61,7 @@ public class UserRoleService {
         List<UserRoleAssignment> activeRoles =
                 userRoleAssignmentRepository.findActiveRoleAssignmentsByUserId(userId, LocalDateTime.now());
 
+        // TODO: do this in the db
         // Extract all unique permissions from the user's roles
         Set<Permission> allPermissions = new HashSet<>();
         for (UserRoleAssignment assignment : activeRoles) {
@@ -76,7 +77,8 @@ public class UserRoleService {
     }
 
     public List<UserRoleAssignmentDto> getUserRoles(Long userId) {
-        List<UserRoleAssignment> assignments = userRoleAssignmentRepository.findByUserId(userId);
+        List<UserRoleAssignment> assignments =
+                userRoleAssignmentRepository.findActiveRoleAssignmentsByUserId(userId, LocalDateTime.now());
         return assignments.stream().map(userRoleAssignmentMapper::toDto).collect(Collectors.toList());
     }
 
