@@ -20,7 +20,6 @@ org.smauel:users-api:jar:1.4.0-SNAPSHOT
 |  |  \- com.fasterxml.jackson.module:jackson-module-parameter-names:jar:2.19.0:compile
 |  +- org.springframework.boot:spring-boot-starter-tomcat:jar:3.5.0:compile
 |  |  +- org.apache.tomcat.embed:tomcat-embed-core:jar:10.1.41:compile
-|  |  +- org.apache.tomcat.embed:tomcat-embed-el:jar:10.1.41:compile
 |  |  \- org.apache.tomcat.embed:tomcat-embed-websocket:jar:10.1.41:compile
 |  +- org.springframework:spring-web:jar:6.2.7:compile
 |  |  \- org.springframework:spring-beans:jar:6.2.7:compile
@@ -35,10 +34,10 @@ org.smauel:users-api:jar:1.4.0-SNAPSHOT
 |  +- org.hibernate.orm:hibernate-core:jar:6.6.15.Final:compile
 |  |  +- jakarta.persistence:jakarta.persistence-api:jar:3.1.0:compile
 |  |  +- jakarta.transaction:jakarta.transaction-api:jar:2.0.1:compile
-|  |  +- org.jboss.logging:jboss-logging:jar:3.6.1.Final:runtime
+|  |  +- org.jboss.logging:jboss-logging:jar:3.6.1.Final:compile
 |  |  +- org.hibernate.common:hibernate-commons-annotations:jar:7.0.3.Final:runtime
 |  |  +- io.smallrye:jandex:jar:3.2.0:runtime
-|  |  +- com.fasterxml:classmate:jar:1.7.0:runtime
+|  |  +- com.fasterxml:classmate:jar:1.7.0:compile
 |  |  +- org.glassfish.jaxb:jaxb-runtime:jar:4.0.5:runtime
 |  |  |  \- org.glassfish.jaxb:jaxb-core:jar:4.0.5:runtime
 |  |  |     +- org.eclipse.angus:angus-activation:jar:2.0.2:runtime
@@ -53,18 +52,10 @@ org.smauel:users-api:jar:1.4.0-SNAPSHOT
 |  |  \- org.slf4j:slf4j-api:jar:2.0.17:compile
 |  \- org.springframework:spring-aspects:jar:6.2.7:compile
 |     \- org.aspectj:aspectjweaver:jar:1.9.24:compile
-+- org.springdoc:springdoc-openapi-starter-webmvc-ui:jar:2.8.5:compile
-|  +- org.springdoc:springdoc-openapi-starter-webmvc-api:jar:2.8.5:compile
-|  |  \- org.springdoc:springdoc-openapi-starter-common:jar:2.8.5:compile
-|  |     \- io.swagger.core.v3:swagger-core-jakarta:jar:2.2.28:compile
-|  |        +- org.apache.commons:commons-lang3:jar:3.17.0:compile
-|  |        +- io.swagger.core.v3:swagger-annotations-jakarta:jar:2.2.28:compile
-|  |        +- io.swagger.core.v3:swagger-models-jakarta:jar:2.2.28:compile
-|  |        +- jakarta.validation:jakarta.validation-api:jar:3.1.0:compile
-|  |        \- com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:jar:2.19.0:compile
-|  +- org.webjars:swagger-ui:jar:5.18.3:compile
-|  \- org.webjars:webjars-locator-lite:jar:1.1.0:compile
-|     \- org.jspecify:jspecify:jar:1.0.0:compile
++- org.springframework.boot:spring-boot-starter-validation:jar:3.5.0:compile
+|  +- org.apache.tomcat.embed:tomcat-embed-el:jar:10.1.41:compile
+|  \- org.hibernate.validator:hibernate-validator:jar:8.0.2.Final:compile
+|     \- jakarta.validation:jakarta.validation-api:jar:3.1.0:compile
 +- org.springframework.boot:spring-boot-starter-actuator:jar:3.5.0:compile
 |  +- org.springframework.boot:spring-boot-actuator-autoconfigure:jar:3.5.0:compile
 |  |  \- org.springframework.boot:spring-boot-actuator:jar:3.5.0:compile
@@ -74,6 +65,17 @@ org.smauel:users-api:jar:1.4.0-SNAPSHOT
 |     \- io.micrometer:micrometer-core:jar:1.15.0:compile
 |        +- org.hdrhistogram:HdrHistogram:jar:2.2.2:runtime
 |        \- org.latencyutils:LatencyUtils:jar:2.0.3:runtime
++- org.springdoc:springdoc-openapi-starter-webmvc-ui:jar:2.8.5:compile
+|  +- org.springdoc:springdoc-openapi-starter-webmvc-api:jar:2.8.5:compile
+|  |  \- org.springdoc:springdoc-openapi-starter-common:jar:2.8.5:compile
+|  |     \- io.swagger.core.v3:swagger-core-jakarta:jar:2.2.28:compile
+|  |        +- org.apache.commons:commons-lang3:jar:3.17.0:compile
+|  |        +- io.swagger.core.v3:swagger-annotations-jakarta:jar:2.2.28:compile
+|  |        +- io.swagger.core.v3:swagger-models-jakarta:jar:2.2.28:compile
+|  |        \- com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:jar:2.19.0:compile
+|  +- org.webjars:swagger-ui:jar:5.18.3:compile
+|  \- org.webjars:webjars-locator-lite:jar:1.1.0:compile
+|     \- org.jspecify:jspecify:jar:1.0.0:compile
 +- org.mapstruct:mapstruct:jar:1.5.5.Final:compile
 +- org.projectlombok:lombok:jar:1.18.38:provided
 +- com.h2database:h2:jar:2.3.232:runtime
