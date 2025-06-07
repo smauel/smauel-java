@@ -250,7 +250,8 @@
                                 <includes>
                                     <include>**/*Test.java</include>
                                 </includes>
-                                <argLine>-javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"</argLine>
+                                <!-- Required for aspectj and mockito dynamic agent loading -->
+                                <argLine>-XX:+EnableDynamicAgentLoading</argLine>
                             </configuration>
                         </execution>
                     </executions>
@@ -279,6 +280,8 @@
                                 <includes>
                                     <include>**/*AT.java</include>
                                 </includes>
+                                <!-- Required for aspectj and mockito dynamic agent loading -->
+                                <argLine>-XX:+EnableDynamicAgentLoading</argLine>
                             </configuration>
                         </execution>
                     </executions>
