@@ -16,7 +16,7 @@ echo "Comparing HEAD to $LAST_RELEASE_TAG" >&2
 #   - git log --pretty=format:'%H %ae': Outputs each commit hash and its author email.
 #   - grep -v ' autoversion@smauel.com$': Excludes lines with that author.
 #   - cut -d' ' -f1: Extracts just the commit hashes.
-RELEVANT_COMMITS=$(git log --pretty=format:'%H %ae' users-apiv1.2.0..HEAD | grep -v 'autoversion@smauel.com' | cut -d' ' -f1)
+RELEVANT_COMMITS=$(git log --pretty=format:'%H %ae' $LAST_RELEASE_TAG..HEAD | grep -v 'autoversion@smauel.com' | cut -d' ' -f1)
 CHANGED_FILES=""
 
 if [ -n "$RELEVANT_COMMITS" ]; then
