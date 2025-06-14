@@ -60,7 +60,7 @@
         <backend.auto.version>1.5.0-SNAPSHOT</backend.auto.version>
         <users-api.auto.version>1.5.0-SNAPSHOT</users-api.auto.version>
         <collections.auto.version>1.5.0-SNAPSHOT</collections.auto.version>
-        <permissions-api.auto.version>1.3.0-SNAPSHOT</permissions-api.auto.version>
+        <permissions-api.auto.version>1.3.0</permissions-api.auto.version>
         <!-- Auto-Versioning Related -->
         <module.auto.version>${parent.auto.version}</module.auto.version>
     </properties>
