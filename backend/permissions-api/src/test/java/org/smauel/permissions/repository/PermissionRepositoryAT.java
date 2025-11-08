@@ -12,7 +12,7 @@ import org.smauel.permissions.model.Permission;
 import org.smauel.permissions.model.enums.Action;
 import org.smauel.permissions.model.enums.PermissionType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 
 @DataJpaTest(showSql = false)

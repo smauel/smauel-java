@@ -16,24 +16,39 @@ The following plugins have been resolved:
       org.codehaus.plexus:plexus-java:jar:1.4.0
       org.ow2.asm:asm:jar:9.7.1
       com.thoughtworks.qdox:qdox:jar:2.2.0
-   org.jacoco:jacoco-maven-plugin:maven-plugin:0.8.12:runtime
-      org.jacoco:jacoco-maven-plugin:jar:0.8.12
-      org.codehaus.plexus:plexus-utils:jar:3.0.24
-      org.apache.maven.shared:file-management:jar:3.1.0
-      org.slf4j:slf4j-api:jar:1.7.36
-      commons-io:commons-io:jar:2.11.0
-      org.apache.maven.reporting:maven-reporting-api:jar:3.0
-      org.apache.maven.doxia:doxia-sink-api:jar:1.0
-      org.jacoco:org.jacoco.agent:jar:runtime:0.8.12
-      org.jacoco:org.jacoco.core:jar:0.8.12
-      org.ow2.asm:asm:jar:9.7
-      org.ow2.asm:asm-commons:jar:9.7
-      org.ow2.asm:asm-tree:jar:9.7
-      org.jacoco:org.jacoco.report:jar:0.8.12
    org.apache.maven.plugins:maven-clean-plugin:maven-plugin:3.2.0:runtime
       org.apache.maven.plugins:maven-clean-plugin:jar:3.2.0
       org.apache.maven.shared:maven-shared-utils:jar:3.3.4
       commons-io:commons-io:jar:2.6
+   com.diffplug.spotless:spotless-maven-plugin:maven-plugin:3.0.0:runtime
+      com.diffplug.spotless:spotless-maven-plugin:jar:3.0.0
+      com.diffplug.spotless:spotless-lib:jar:4.0.0
+      com.diffplug.spotless:spotless-lib-extra:jar:4.0.0
+      com.googlecode.concurrent-trees:concurrent-trees:jar:2.6.1
+      dev.equo.ide:solstice:jar:1.8.1
+      com.diffplug.durian:durian-swt.os:jar:4.3.0
+      org.tukaani:xz:jar:1.9
+      com.squareup.okhttp3:okhttp:jar:4.12.0
+      com.squareup.okio:okio:jar:3.6.0
+      com.squareup.okio:okio-jvm:jar:3.6.0
+      org.jetbrains.kotlin:kotlin-stdlib-common:jar:1.9.10
+      org.jetbrains.kotlin:kotlin-stdlib-jdk8:jar:1.8.21
+      org.jetbrains.kotlin:kotlin-stdlib:jar:1.8.21
+      org.jetbrains:annotations:jar:13.0
+      org.jetbrains.kotlin:kotlin-stdlib-jdk7:jar:1.8.21
+      org.eclipse.platform:org.eclipse.osgi:jar:3.23.200
+      com.diffplug.durian:durian-core:jar:1.2.0
+      com.diffplug.durian:durian-io:jar:1.2.0
+      com.diffplug.durian:durian-collect:jar:1.2.0
+      org.codehaus.plexus:plexus-resources:jar:1.3.1
+      org.codehaus.plexus:plexus-utils:jar:4.0.2
+      org.codehaus.plexus:plexus-xml:jar:3.0.1
+      javax.inject:javax.inject:jar:1
+      org.slf4j:slf4j-api:jar:1.7.36
+      org.eclipse.jgit:org.eclipse.jgit:jar:7.3.0.202506031305-r
+      com.googlecode.javaewah:JavaEWAH:jar:1.2.3
+      commons-codec:commons-codec:jar:1.18.0
+      org.sonatype.plexus:plexus-build-api:jar:0.0.7
    org.apache.maven.plugins:maven-dependency-plugin:maven-plugin:3.7.0:runtime
       org.apache.maven.plugins:maven-dependency-plugin:jar:3.7.0
       org.apache.maven.doxia:doxia-sink-api:jar:1.12.0
@@ -232,6 +247,20 @@ The following plugins have been resolved:
       org.apache.maven.resolver:maven-resolver-api:jar:1.9.18
       org.codehaus.plexus:plexus-utils:jar:4.0.1
       org.codehaus.plexus:plexus-xml:jar:3.0.0
+   org.jacoco:jacoco-maven-plugin:maven-plugin:0.8.13:runtime
+      org.jacoco:jacoco-maven-plugin:jar:0.8.13
+      org.codehaus.plexus:plexus-utils:jar:3.0.24
+      org.apache.maven.shared:file-management:jar:3.1.0
+      org.slf4j:slf4j-api:jar:1.7.36
+      commons-io:commons-io:jar:2.11.0
+      org.apache.maven.reporting:maven-reporting-api:jar:3.0
+      org.apache.maven.doxia:doxia-sink-api:jar:1.0
+      org.jacoco:org.jacoco.agent:jar:runtime:0.8.13
+      org.jacoco:org.jacoco.core:jar:0.8.13
+      org.ow2.asm:asm:jar:9.8
+      org.ow2.asm:asm-commons:jar:9.8
+      org.ow2.asm:asm-tree:jar:9.8
+      org.jacoco:org.jacoco.report:jar:0.8.13
    org.apache.maven.plugins:maven-enforcer-plugin:maven-plugin:3.5.0:runtime
       org.apache.maven.plugins:maven-enforcer-plugin:jar:3.5.0
       org.codehaus.plexus:plexus-utils:jar:4.0.1
@@ -250,35 +279,6 @@ The following plugins have been resolved:
       org.codehaus.plexus:plexus-xml:jar:3.0.0
       org.apache.maven.resolver:maven-resolver-util:jar:1.9.18
       org.apache.maven.resolver:maven-resolver-api:jar:1.9.18
-   com.diffplug.spotless:spotless-maven-plugin:maven-plugin:2.44.4:runtime
-      com.diffplug.spotless:spotless-maven-plugin:jar:2.44.4
-      com.diffplug.spotless:spotless-lib:jar:3.1.1
-      com.diffplug.spotless:spotless-lib-extra:jar:3.1.1
-      com.googlecode.concurrent-trees:concurrent-trees:jar:2.6.1
-      dev.equo.ide:solstice:jar:1.8.1
-      com.diffplug.durian:durian-swt.os:jar:4.3.0
-      org.tukaani:xz:jar:1.9
-      com.squareup.okhttp3:okhttp:jar:4.12.0
-      com.squareup.okio:okio:jar:3.6.0
-      com.squareup.okio:okio-jvm:jar:3.6.0
-      org.jetbrains.kotlin:kotlin-stdlib-common:jar:1.9.10
-      org.jetbrains.kotlin:kotlin-stdlib-jdk8:jar:1.8.21
-      org.jetbrains.kotlin:kotlin-stdlib:jar:1.8.21
-      org.jetbrains:annotations:jar:13.0
-      org.jetbrains.kotlin:kotlin-stdlib-jdk7:jar:1.8.21
-      org.eclipse.platform:org.eclipse.osgi:jar:3.23.0
-      com.diffplug.durian:durian-core:jar:1.2.0
-      com.diffplug.durian:durian-io:jar:1.2.0
-      com.diffplug.durian:durian-collect:jar:1.2.0
-      org.codehaus.plexus:plexus-resources:jar:1.3.0
-      org.codehaus.plexus:plexus-utils:jar:4.0.0
-      org.codehaus.plexus:plexus-xml:jar:3.0.0
-      javax.inject:javax.inject:jar:1
-      org.slf4j:slf4j-api:jar:1.7.36
-      org.eclipse.jgit:org.eclipse.jgit:jar:6.10.0.202406032230-r
-      com.googlecode.javaewah:JavaEWAH:jar:1.2.3
-      commons-codec:commons-codec:jar:1.17.0
-      org.sonatype.plexus:plexus-build-api:jar:0.0.7
    org.apache.maven.plugins:maven-surefire-plugin:maven-plugin:3.5.3:runtime
       org.apache.maven.plugins:maven-surefire-plugin:jar:3.5.3
       org.apache.maven.surefire:surefire-api:jar:3.5.3

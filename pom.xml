@@ -22,19 +22,19 @@
     </distributionManagement>
 
     <properties>
-        <java.version>21</java.version>
+        <java.version>25</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <lombok.version>1.18.38</lombok.version>
-        <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <lombok.version>1.18.42</lombok.version>
+        <mapstruct.version>1.6.3</mapstruct.version>
         <lombok.mapstruct.binding.version>0.2.0</lombok.mapstruct.binding.version>
         <rewrite.version>6.8.1</rewrite.version>
-        <rewrite.logging.version>3.8.0</rewrite.logging.version>
-        <rewrite.testing.version>3.8.0</rewrite.testing.version>
-        <rewrite.java.version>3.9.0</rewrite.java.version>
-        <spotless.version>2.44.4</spotless.version>
-        <jacoco.version>0.8.12</jacoco.version>
+        <rewrite.logging.version>3.18.0</rewrite.logging.version>
+        <rewrite.testing.version>3.21.2</rewrite.testing.version>
+        <rewrite.java.version>3.21.1</rewrite.java.version>
+        <spotless.version>3.0.0</spotless.version>
+        <jacoco.version>0.8.13</jacoco.version>
         <allure.version>2.15.2</allure.version>
-        <aspectj.version>1.9.21</aspectj.version>
+        <aspectj.version>1.9.25</aspectj.version>
         <maven.compiler.version>3.14.0</maven.compiler.version>
         <maven.surefire.version>3.5.3</maven.surefire.version>
         <maven.failsafe.version>3.5.3</maven.failsafe.version>
