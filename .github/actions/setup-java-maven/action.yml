@@ -12,7 +12,7 @@ runs:
           ${{ runner.os }}-maven-
     - uses: actions/setup-java@v4
       with:
-        java-version: 21
+        java-version: 25
         distribution: temurin
     - uses: s4u/maven-settings-action@v3.1.0
       with:
