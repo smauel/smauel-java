@@ -1,4 +1,4 @@
-org.smauel:permissions-api:jar:1.4.0
+org.smauel:permissions-api:jar:1.5.0-SNAPSHOT
 +- org.springframework.boot:spring-boot-starter-web:jar:4.0.0-RC2:compile
 |  +- org.springframework.boot:spring-boot-starter-jackson:jar:4.0.0-RC2:compile
 |  |  \- org.springframework.boot:spring-boot-jackson:jar:4.0.0-RC2:compile
