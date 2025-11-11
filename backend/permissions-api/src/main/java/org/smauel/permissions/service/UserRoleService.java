@@ -16,7 +16,6 @@ import org.smauel.permissions.mapper.UserRoleAssignmentMapper;
 import org.smauel.permissions.model.Permission;
 import org.smauel.permissions.model.Role;
 import org.smauel.permissions.model.UserRoleAssignment;
-import org.smauel.permissions.repository.PermissionRepository;
 import org.smauel.permissions.repository.RoleRepository;
 import org.smauel.permissions.repository.UserRoleAssignmentRepository;
 import org.springframework.stereotype.Service;
@@ -28,7 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserRoleService {
     private final UserRoleAssignmentRepository userRoleAssignmentRepository;
     private final RoleRepository roleRepository;
-    private final PermissionRepository permissionRepository;
     private final UserRoleAssignmentMapper userRoleAssignmentMapper;
     private final PermissionMapper permissionMapper;
 

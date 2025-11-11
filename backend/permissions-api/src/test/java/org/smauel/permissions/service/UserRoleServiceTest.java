@@ -31,7 +31,6 @@ import org.smauel.permissions.mapper.UserRoleAssignmentMapperImpl;
 import org.smauel.permissions.model.Permission;
 import org.smauel.permissions.model.Role;
 import org.smauel.permissions.model.UserRoleAssignment;
-import org.smauel.permissions.repository.PermissionRepository;
 import org.smauel.permissions.repository.RoleRepository;
 import org.smauel.permissions.repository.UserRoleAssignmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,9 +48,6 @@ class UserRoleServiceTest implements WithAssertions {
     @Mock
     private RoleRepository roleRepository;
 
-    @Mock
-    private PermissionRepository permissionRepository;
-
     @Autowired
     private UserRoleAssignmentMapper userRoleAssignmentMapper;
 
@@ -63,11 +59,7 @@ class UserRoleServiceTest implements WithAssertions {
     @BeforeEach
     void setUp() {
         userRoleService = new UserRoleService(
-                userRoleAssignmentRepository,
-                roleRepository,
-                permissionRepository,
-                userRoleAssignmentMapper,
-                permissionMapper);
+                userRoleAssignmentRepository, roleRepository, userRoleAssignmentMapper, permissionMapper);
     }
 
     @Nested

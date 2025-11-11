@@ -30,11 +30,7 @@ public class UserService {
      * @return The created user response
      */
     public UserDto createUser(CreateUserRequest request) {
-        User user = User.builder()
-                .username(request.getUsername())
-                .fullName(request.getFullName())
-                .email(request.getEmail())
-                .build();
+        User user = userMapper.toEntity(request);
         User savedUser = userRepository.save(user);
         return userMapper.toDto(savedUser);
     }

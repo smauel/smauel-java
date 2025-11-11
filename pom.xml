@@ -66,6 +66,7 @@
         <permissions-api.auto.version>1.6.0-SNAPSHOT</permissions-api.auto.version>
         <!-- Auto-Versioning Related -->
         <module.auto.version>${parent.auto.version}</module.auto.version>
+        <maven.version>3.9.11</maven.version>
     </properties>
 
     <dependencyManagement>
@@ -387,6 +388,9 @@
                                 <failWhenParentIsSnapshot>false</failWhenParentIsSnapshot>
                             </requireReleaseDeps>
                             <requireUpperBoundDeps/>
+                            <requireMavenVersion>
+                                <version>${maven.version}</version>
+                            </requireMavenVersion>
                         </rules>
                     </configuration>
                     <executions>

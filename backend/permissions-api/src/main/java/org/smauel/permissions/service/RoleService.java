@@ -1,6 +1,5 @@
 package org.smauel.permissions.service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -26,11 +25,7 @@ public class RoleService {
     private final RoleMapper roleMapper;
 
     public RoleDto createRole(CreateRoleRequest request) {
-        Role role = Role.builder()
-                .name(request.getName())
-                .description(request.getDescription())
-                .permissions(new HashSet<>())
-                .build();
+        Role role = roleMapper.toEntity(request);
 
         if (request.getPermissionIds() != null && !request.getPermissionIds().isEmpty()) {
             Set<Permission> permissions = request.getPermissionIds().stream()

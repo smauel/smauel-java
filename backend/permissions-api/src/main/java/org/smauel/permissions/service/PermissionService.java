@@ -21,14 +21,7 @@ public class PermissionService {
     private final PermissionMapper permissionMapper;
 
     public PermissionDto createPermission(CreatePermissionRequest request) {
-        Permission permission = Permission.builder()
-                .name(request.getName())
-                .description(request.getDescription())
-                .type(request.getType())
-                .resource(request.getResource())
-                .action(request.getAction())
-                .build();
-
+        Permission permission = permissionMapper.toEntity(request);
         Permission saved = permissionRepository.save(permission);
         return permissionMapper.toDto(saved);
     }
