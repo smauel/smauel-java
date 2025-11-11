@@ -89,7 +89,7 @@ org.smauel:users-api:jar:1.6.0-SNAPSHOT
 |  |        +- com.fasterxml.jackson.core:jackson-databind:jar:2.20.1:compile
 |  |        |  \- com.fasterxml.jackson.core:jackson-core:jar:2.20.1:compile
 |  |        +- com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:jar:2.20.1:compile
-|  |        \- com.fasterxml.jackson.datatype:jackson-datatype-jsr310:jar:2.19.2:compile
+|  |        \- com.fasterxml.jackson.datatype:jackson-datatype-jsr310:jar:2.20.1:compile
 |  +- org.webjars:swagger-ui:jar:5.30.1:compile
 |  \- org.webjars:webjars-locator-lite:jar:1.1.2:compile
 +- org.mapstruct:mapstruct:jar:1.6.3:compile

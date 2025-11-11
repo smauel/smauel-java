@@ -45,6 +45,7 @@
         <maven.versions.version>2.18.0</maven.versions.version>
         <maven.deploy.verison>3.1.2</maven.deploy.verison>
         <maven.dependency.version>3.7.0</maven.dependency.version>
+        <spring.boot.version>4.0.0-RC2</spring.boot.version>
         <!-- Lock File -->
         <skip.lock.file>false</skip.lock.file>
         <!-- Docker Builds -->
@@ -57,6 +58,8 @@
         <boms.auto.version>1.4.0-SNAPSHOT</boms.auto.version>
         <logging-bom.auto.version>1.4.0-SNAPSHOT</logging-bom.auto.version>
         <testing-bom.auto.version>1.4.0-SNAPSHOT</testing-bom.auto.version>
+        <spring-bom.auto.version>1.0.0-SNAPSHOT</spring-bom.auto.version>
+        <data-bom.auto.version>1.0.0-SNAPSHOT</data-bom.auto.version>
         <backend.auto.version>1.6.0-SNAPSHOT</backend.auto.version>
         <users-api.auto.version>1.6.0-SNAPSHOT</users-api.auto.version>
         <collections.auto.version>1.6.0-SNAPSHOT</collections.auto.version>
@@ -504,6 +507,29 @@
                             <configuration>
                                 <skip>${skip.lock.file}</skip>
                                 <outputFile>${project.basedir}/pom.lock</outputFile>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- Spring Boot Plugin -->
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring.boot.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
+                            <configuration>
+                                <classifier>boot</classifier>
+                                <excludes>
+                                    <exclude>
+                                        <groupId>org.projectlombok</groupId>
+                                        <artifactId>lombok</artifactId>
+                                    </exclude>
+                                </excludes>
                             </configuration>
                         </execution>
                     </executions>
