@@ -5,11 +5,11 @@
     <parent>
         <groupId>org.smauel</groupId>
         <artifactId>parent</artifactId>
-        <version>1.5.0-SNAPSHOT</version>
+        <version>1.5.0</version>
     </parent>
 
     <artifactId>backend</artifactId>
-    <version>1.6.0-SNAPSHOT</version>
+    <version>1.6.0</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -28,7 +28,7 @@
             <dependency>
                 <groupId>org.smauel</groupId>
                 <artifactId>data-bom</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
+                <version>1.0.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -36,7 +36,7 @@
             <dependency>
                 <groupId>org.smauel</groupId>
                 <artifactId>spring-bom</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
+                <version>1.0.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
