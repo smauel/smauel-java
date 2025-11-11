@@ -5,11 +5,11 @@
     <parent>
         <groupId>org.smauel</groupId>
         <artifactId>boms</artifactId>
-        <version>1.4.0</version>
+        <version>1.5.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>data-bom</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0-SNAPSHOT</version>
 
     <properties>
         <h2.version>2.4.240</h2.version>
